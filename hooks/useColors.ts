@@ -4,6 +4,7 @@ export type Colors = {
   background: string;
   text: string;
   textLight: string;
+  primary: string;
 };
 
 export function useColors(): Colors {
@@ -13,12 +14,14 @@ export function useColors(): Colors {
       background: "#000",
       text: "#fff",
       textLight: "#777",
+      primary: "#009688",
     };
   } else {
     return {
       background: "#fff",
       text: "#000",
       textLight: "#999",
+      primary: "#009688",
     };
   }
 }

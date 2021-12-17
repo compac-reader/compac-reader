@@ -7,6 +7,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "./screens/Home";
 import { Viewer } from "./screens/Viewer";
+import { Story } from "./screens/Story";
 import { RootStackParamList } from "./screens/Root";
 import { useColorScheme } from "react-native";
 
@@ -20,6 +21,7 @@ export default function App() {
     <NavigationContainer theme={theme}>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Story" component={Story} />
         <Stack.Screen name="Viewer" component={Viewer} />
       </Stack.Navigator>
     </NavigationContainer>
