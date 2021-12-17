@@ -15,13 +15,22 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 function useStories(): Story[] {
-  const icon = defaultIcon;
+  function makeStory(title: string): Story {
+    return {
+      title: title,
+      icon: defaultIcon,
+      description: "description",
+      authorName: "author",
+      lastUpdatedAt: 0,
+      episodes: [],
+    };
+  }
   return [
-    { title: "Title 1", icon: icon, authorName: "author", lastUpdatedAt: 0 },
-    { title: "Title 2", icon: icon, authorName: "author", lastUpdatedAt: 0 },
-    { title: "Title 3", icon: icon, authorName: "author", lastUpdatedAt: 0 },
-    { title: "Title 4", icon: icon, authorName: "author", lastUpdatedAt: 0 },
-    { title: "Title 5", icon: icon, authorName: "author", lastUpdatedAt: 0 },
+    makeStory("Title 1"),
+    makeStory("Title 2"),
+    makeStory("Title 3"),
+    makeStory("Title 4"),
+    makeStory("Title 5"),
   ];
 }
 
@@ -39,7 +48,7 @@ export function Home() {
           isLoading={false}
           onRefresh={() => {}}
           onPressStory={(story: Story) => {
-            navigation.navigate("Viewer", { id: story.title });
+            navigation.navigate("Story", { id: story.title });
           }}
         />
       ) : (
