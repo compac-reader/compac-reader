@@ -6,7 +6,7 @@ import { useRoute } from "@react-navigation/core";
 import { useColors } from "../hooks/useColors";
 import { BareEpisode } from "../models/episode";
 import { fetchEpisode } from "../lib/narouClient";
-import { WebView } from "react-native-webview";
+import { ReaderBrowser } from "../components/ReaderBrowser";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
@@ -33,11 +33,7 @@ export function Viewer() {
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <Text style={{ color: colors.text }}>Viewer {id}</Text>
       <Text>{episode?.title}</Text>
-      <WebView
-        style={styles.webView}
-        originWhitelist={["*"]}
-        source={{ html: episode.body }}
-      />
+      <ReaderBrowser />
     </View>
   );
 }
