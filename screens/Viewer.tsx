@@ -33,7 +33,7 @@ export function Viewer() {
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <Text style={{ color: colors.text }}>Viewer {id}</Text>
       <Text>{episode?.title}</Text>
-      <ReaderBrowser />
+      <ReaderBrowser body={episode.body} />
     </View>
   );
 }

@@ -14,7 +14,7 @@
     (function () {
         function send(type, data) {
             data = data || {};
-            window.WebViewBridge.send(JSON.stringify({
+            window.ReactNativeWebView.postMessage(JSON.stringify({
                 type: type,
                 data: data
             }));
@@ -23,7 +23,7 @@
         window.cnv = window.CompacNovelView.init(document.getElementById('app'));
         window.initBridge = function () {
             window.cnv.setHandler(send);
-            window.WebViewBridge.onMessage = function (messageString) {
+            window.onMessage = function (messageString) {
                 try {
                     var message = JSON.parse(decodeURIComponent(escape(atob(messageString))));
                     switch (message.type) {
