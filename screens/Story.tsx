@@ -69,7 +69,6 @@ export function Story() {
             bookmark={{ episodeId: "" }}
             onPress={() => {
               navigation.navigate("Viewer", { id: item.title });
-              console.log(item);
             }}
           />
         );

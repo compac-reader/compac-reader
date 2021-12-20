@@ -24,7 +24,6 @@ export function StoryAbstract({ story }: Props) {
 
   function onLayoutBody(e: LayoutChangeEvent) {
     // TODO: https://github.com/rutan/compac-reader/blob/9d90e67949358ba3ecba6bbc43ab5933a94e5b83/src/view/screen/story/abstract.js#L69-L77
-    console.log(e);
   }
 
   return (
