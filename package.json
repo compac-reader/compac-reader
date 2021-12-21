@@ -13,8 +13,10 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "buffer": "^6.0.3",
     "cheerio": "^1.0.0-rc.10",
     "expo": "~43.0.2",
+    "expo-asset": "~8.4.3",
     "expo-file-system": "~13.0.3",
     "expo-linear-gradient": "~10.0.3",
     "expo-status-bar": "~1.1.0",
