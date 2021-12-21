@@ -1,16 +1,26 @@
-import React, { useRef } from "react";
-import { Platform, StyleSheet } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Platform, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
-import { Asset } from "expo-asset";
+import { Asset, useAssets } from "expo-asset";
 import Base64 from "./Base64";
 
 export type Props = {
   body: string;
+  page: number;
+  pageMax: number;
+  pageRate: number;
+  onTap: () => void;
+  onPullPrev: () => void;
+  onPullNext: () => void;
+  onUpdatePageMax: (pageMax: number) => void;
+  onChangePage: (page: number) => void;
 };
 
 export function ReaderBrowser(props: Props) {
-  const { localUri } = Asset.fromModule(require("./index.html"));
+  const viewerHtmlAsset = Asset.fromModule(require("./index.html"));
   const webViewRef = useRef<any>();
+  const [assets] = useAssets([require("./index.html")]);
+  const htmlAsset = assets?.[0];
 
   const sendMessage = (type: string, data: any) => {
     const payload = Base64.encode(JSON.stringify({ type, data }));
@@ -18,13 +28,24 @@ export function ReaderBrowser(props: Props) {
   };
 
   const startRenderHTML = () => {
-    const { body } = props;
-    const pageRate = 0;
+    const { body, pageRate } = props;
     sendMessage("load", {
       body,
       pageRate,
     });
   };
+
+  useEffect(() => {
+    const { body, pageRate } = props;
+    sendMessage("load", {
+      body,
+      pageRate,
+    });
+  }, [props.body]);
+
+  useEffect(() => {
+    sendMessage("page", props.page);
+  }, [props.page]);
 
   const onMessage = (message: string) => {
     const { type, data } = JSON.parse(message);
@@ -33,21 +54,19 @@ export function ReaderBrowser(props: Props) {
         startRenderHTML();
         break;
       case "drawn":
-        // this.caches.pageMax = data.pageMax;
-        // this.props.onUpdatePageMax(data.pageMax);
+        props.onUpdatePageMax(data.pageMax);
         break;
       case "changePage":
-        // this.caches.page = data.page;
-        // this.props.onChangePage(data.page);
+        props.onChangePage(data.page);
         break;
       case "tap":
-        // this.props.onTap();
+        props.onTap();
         break;
       case "pullPrev":
-        // this.props.onPullPrev();
+        props.onPullPrev();
         break;
       case "pullNext":
-        // this.props.onPullNext();
+        props.onPullNext();
         break;
       case "debug":
         console.log(data);
@@ -60,17 +79,20 @@ export function ReaderBrowser(props: Props) {
   return (
     <WebView
       ref={webViewRef}
+      style={styles.container}
       originWhitelist={["*"]}
       source={
-        Platform.OS === "android"
+        htmlAsset?.localUri
           ? {
-              uri: localUri!.includes("ExponentAsset")
-                ? localUri
-                : "file:///android_asset/" + localUri!.substr(9),
+              uri:
+                Platform.OS === "android" ? htmlAsset.localUri : htmlAsset.uri,
             }
-          : require("./index.html")
+          : undefined
       }
       injectedJavaScript="window.initBridge();"
+      startInLoadingState={true}
+      allowFileAccess={true}
+      allowUniversalAccessFromFileURLs={true}
       onMessage={(event) => {
         const data = event.nativeEvent.data;
         onMessage(data);
@@ -78,3 +100,13 @@ export function ReaderBrowser(props: Props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+  },
+});
