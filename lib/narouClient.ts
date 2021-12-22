@@ -1,6 +1,7 @@
 import * as httpClient from "./httpClient";
 import cheerio from "cheerio";
-import { BareEpisode } from "../models/episode";
+import { BareEpisode, Episode } from "../models/episode";
+import { BareStory, EpisodeInStory } from "../models/story";
 
 const publisherType = "narou";
 const NCODE_URL_BASE = "http://ncode.syosetu.com";
@@ -9,7 +10,7 @@ const NCODE_URL_BASE = "http://ncode.syosetu.com";
  * load from `http://ncode.syosetu.com/:id/`
  * @param code
  */
-export async function fetchStory(publisherCode: string) {
+export async function fetchStory(publisherCode: string): Promise<BareStory> {
   const url = `${NCODE_URL_BASE}/${publisherCode}/`;
 
   const $ = await httpClient.fetchHTML(url);
@@ -17,7 +18,7 @@ export async function fetchStory(publisherCode: string) {
   const title = $(".novel_title").text();
   const authorName = $(".novel_writername a").text();
   const description = $("#novel_ex").text();
-  const episodes = $(".chapter_title, .novel_sublist2")
+  const episodes: EpisodeInStory[] = $(".chapter_title, .novel_sublist2")
     .map((index, element) => {
       const el = $(element);
       const type = el.attr("class") === "chapter_title" ? "header" : "episode";
