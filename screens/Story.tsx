@@ -26,12 +26,13 @@ function useStory(id: string): StoryModel | undefined {
         lastUpdatedAt: 0,
         episodes: story.episodes.map((e) => {
           return {
-            episodeId: e.episodeId || e.id,
+            episodeId: e.episodeId || "",
             isRead: false,
             isDownload: false,
             title: e.title,
             publishedAt: e.publishedAt || 0,
             revisedAt: e.revisedAt || 0,
+            index: e.index,
           };
         }),
       };
@@ -68,12 +69,16 @@ export function Story() {
         </View>
       )}
       renderItem={({ item, index }) => {
+        // TODO: separate chapter_title
         return (
           <EpisodeItem
             episode={item}
             bookmark={{ episodeId: "" }}
             onPress={() => {
-              navigation.navigate("Viewer", { id: item.title });
+              navigation.navigate("Viewer", {
+                id: route.params.id,
+                index: item.index,
+              });
             }}
           />
         );
