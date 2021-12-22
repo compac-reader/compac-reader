@@ -1,43 +1,45 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import { defaultIcon } from "../assets/images";
 import { EpisodeItem } from "../components/EpisodeItem";
 import { SectionHeader } from "../components/SectionHeader";
 import { StoryAbstract } from "../components/StoryAbstract";
 import { StoryHeader } from "../components/StoryHeader";
 import { useColors } from "../hooks/useColors";
-import { Episode } from "../models/episode";
+import { fetchStory } from "../lib/narouClient";
 import { Story as StoryModel } from "../models/story";
 import { RootStackParamList } from "./Root";
 
-function useStory(id: string): StoryModel {
-  function episode(title: string): Episode {
-    return {
-      episodeId: "1",
-      isRead: false,
-      isDownload: false,
-      title: title,
-      publishedAt: 0,
-      revisedAt: 0,
-    };
-  }
-  return {
-    title: "Title 1",
-    icon: defaultIcon,
-    authorName: "Author",
-    description: "description",
-    lastUpdatedAt: 0,
-    episodes: [
-      episode("Title 1"),
-      episode("Title 2"),
-      episode("Title 3"),
-      episode("Title 4"),
-      episode("Title 5"),
-      episode("Title 6"),
-    ],
-  };
+function useStory(id: string): StoryModel | undefined {
+  const [story, setStory] = useState<StoryModel>();
+
+  useEffect(() => {
+    fetchStory(id).then((story) => {
+      const s: StoryModel = {
+        id: story.id,
+        title: story.title,
+        icon: story.icon || defaultIcon,
+        authorName: story.authorName,
+        description: story.description,
+        lastUpdatedAt: 0,
+        episodes: story.episodes.map((e) => {
+          return {
+            episodeId: e.episodeId || e.id,
+            isRead: false,
+            isDownload: false,
+            title: e.title,
+            publishedAt: e.publishedAt || 0,
+            revisedAt: e.revisedAt || 0,
+          };
+        }),
+      };
+      setStory(s);
+    });
+  }, []);
+
+  return story;
 }
 
 type StoryScreenRouteProp = RouteProp<RootStackParamList, "Story">;
@@ -51,6 +53,9 @@ export function Story() {
   const story = useStory(route.params.id);
   const colors = useColors();
   const navigation = useNavigation<StoryScreenNavigationProp>();
+  if (!story) {
+    return <Text style={{ color: colors.text }}>Loading...</Text>;
+  }
   return (
     <FlatList
       style={{ backgroundColor: colors.background }}

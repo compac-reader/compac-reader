@@ -15,8 +15,9 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 function useStories(): Story[] {
-  function makeStory(title: string): Story {
+  function makeStory(id: string, title: string): Story {
     return {
+      id: id,
       title: title,
       icon: defaultIcon,
       description: "description",
@@ -26,11 +27,19 @@ function useStories(): Story[] {
     };
   }
   return [
-    makeStory("Title 1"),
-    makeStory("Title 2"),
-    makeStory("Title 3"),
-    makeStory("Title 4"),
-    makeStory("Title 5"),
+    makeStory(
+      "n7498dq",
+      "若者の黒魔法離れが深刻ですが、就職してみたら待遇いいし、社長も使い魔もかわいくて最高です！"
+    ),
+    makeStory(
+      "n7238dp",
+      "ロリ精霊達と契約したので、養う為にダンジョンに潜ります。"
+    ),
+    makeStory("n6829bd", "賢者の弟子を名乗る賢者"),
+    makeStory("n0108dr", "生贄の后が可愛すぎてつらい"),
+    makeStory("n5834cr", "Frontier World ―召喚士として活動中―"),
+    makeStory("n6316bn", "転生したらスライムだった件"),
+    makeStory("n4185ci", "くまクマ熊ベアー"),
   ];
 }
 
@@ -48,7 +57,7 @@ export function Home() {
           isLoading={false}
           onRefresh={() => {}}
           onPressStory={(story: Story) => {
-            navigation.navigate("Story", { id: story.title });
+            navigation.navigate("Story", { id: story.id });
           }}
         />
       ) : (
