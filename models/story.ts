@@ -8,7 +8,7 @@ export type EpisodeInStory = {
   title: string;
   publishedAt?: number;
   revisedAt?: number;
-  index: number;
+  index: number | undefined;
 };
 
 export type BareStory = {

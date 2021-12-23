@@ -69,7 +69,7 @@ export async function fetchStory(publisherCode: string): Promise<BareStory> {
         title,
         publishedAt: publishedAt,
         revisedAt: publishedAt,
-        index: 0,
+        index: undefined,
       });
     }
   })();

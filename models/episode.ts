@@ -5,6 +5,7 @@ export type Episode = {
   title: string;
   publishedAt: number;
   revisedAt: number;
+  index: number | undefined;
 };
 
 export type BareEpisode = {

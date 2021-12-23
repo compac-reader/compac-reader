@@ -10,10 +10,14 @@ import { ReaderBrowser } from "../components/ReaderBrowser";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
-function useEpisode(): BareEpisode | undefined {
+function useEpisode(
+  id: string,
+  index: number | undefined
+): BareEpisode | undefined {
   const [episode, setEpisode] = useState<BareEpisode | undefined>(undefined);
   useEffect(() => {
-    fetchEpisode("n6829bd", "1").then((episode) => {
+    fetchEpisode(id, index?.toString() || "").then((episode) => {
+      // fetchEpisode("n6829bd", "1").then((episode) => { // 普通の
       // fetchEpisode("n1108hj", "1").then((episode) => { // 挿絵付き
       setEpisode(episode);
     });
@@ -27,9 +31,9 @@ type Props = {
 
 export function Viewer(props: Props) {
   const route = useRoute<ViewerScreenRouteProp>();
-  const { id } = route.params;
+  const { id, index } = route.params;
   const colors = useColors();
-  const episode = useEpisode();
+  const episode = useEpisode(id, index);
 
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
@@ -46,8 +50,6 @@ export function Viewer(props: Props) {
 
   return (
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
-      <Text style={{ color: colors.text }}>Viewer {id}</Text>
-      <Text style={{ color: colors.text }}>{episode?.title}</Text>
       <ReaderBrowser
         body={episode.body}
         page={page}
