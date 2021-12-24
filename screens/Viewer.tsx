@@ -12,13 +12,10 @@ import { ViewerNavigation } from "../components/ViewerNavigation";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
-function useEpisode(
-  id: string,
-  index: number | undefined
-): BareEpisode | undefined {
+function useEpisode(id: string, episodeId: string): BareEpisode | undefined {
   const [episode, setEpisode] = useState<BareEpisode | undefined>(undefined);
   useEffect(() => {
-    fetchEpisode(id, index?.toString() || "").then((episode) => {
+    fetchEpisode(id, episodeId).then((episode) => {
       // fetchEpisode("n6829bd", "1").then((episode) => { // 普通の
       // fetchEpisode("n1108hj", "1").then((episode) => { // 挿絵付き
       setEpisode(episode);
@@ -33,9 +30,9 @@ type Props = {
 
 export function Viewer(props: Props) {
   const route = useRoute<ViewerScreenRouteProp>();
-  const { id, index } = route.params;
+  const { id, episodeId } = route.params;
   const colors = useColors();
-  const episode = useEpisode(id, index);
+  const episode = useEpisode(id, episodeId);
 
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
