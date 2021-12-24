@@ -68,7 +68,7 @@ export function Story() {
           <SectionHeader title="エピソード一覧" style={styles.header} />
         </View>
       )}
-      renderItem={({ item, index }) => {
+      renderItem={({ item }) => {
         // TODO: separate chapter_title
         return (
           <EpisodeItem
@@ -77,7 +77,7 @@ export function Story() {
             onPress={() => {
               navigation.navigate("Viewer", {
                 id: route.params.id,
-                index: item.index,
+                episodeId: item.episodeId,
               });
             }}
           />
