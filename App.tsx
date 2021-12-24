@@ -20,9 +20,18 @@ export default function App() {
   return (
     <NavigationContainer theme={theme}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Story" component={Story} />
-        <Stack.Screen name="Viewer" component={Viewer} />
+        <Stack.Group>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Story" component={Story} />
+        </Stack.Group>
+        <Stack.Group
+          screenOptions={{
+            presentation: "fullScreenModal",
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Viewer" component={Viewer} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
