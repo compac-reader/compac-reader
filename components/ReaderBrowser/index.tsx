@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
-import { Asset, useAssets } from "expo-asset";
+import { useAssets } from "expo-asset";
 import Base64 from "./Base64";
 
 export type Props = {
@@ -17,7 +17,6 @@ export type Props = {
 };
 
 export function ReaderBrowser(props: Props) {
-  const viewerHtmlAsset = Asset.fromModule(require("./index.html"));
   const webViewRef = useRef<any>();
   const [assets] = useAssets([require("./index.html")]);
   const htmlAsset = assets?.[0];
