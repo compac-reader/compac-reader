@@ -1,0 +1,82 @@
+.compac-novel-viewer {
+  --compacBackColor: #fffff1;
+  --compacTextColor: #333333;
+  --compacFontFamily: 'serif';
+  --compacPageWidth: 100px;
+  --compacPageHeight: 100px;
+  --compacPagePaddingX: 0;
+  --compacPagePaddingY: 0;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--compacBackColor);
+  color: var(--compacTextColor);
+  font-family: var(--compacFontFamily);
+  overflow: hidden;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-break: strict;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page.with-transition {
+  transition: left ease-in-out .3s;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--compacPagePaddingY) var(--compacPagePaddingX);
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content {
+  position: relative;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-break: strict;
+  line-height: 2;
+  letter-spacing: .02em;
+  width: var(--compacPageWidth);
+  height: var(--compacPageHeight);
+  column-width: var(--compacPageHeight);
+  column-gap: var(--compacPagePaddingY);
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content p {
+  margin: 0;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content hr {
+  border: 0;
+  border-left: 4px double #000;
+  height: 100%;
+  margin: 0 2em;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content .no-orientation {
+  text-orientation: mixed;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content .sideways {
+  text-orientation: sideways;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_content .combine {
+  text-combine-upright: all;
+}
+
+.compac-novel-viewer .compac-novel-viewer__page_daemon {
+  width: 1px;
+  height: 100%;
+  background: transparent;
+}

@@ -1,72 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
-    <title>Compac Novel View</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <title>Compac Novel View</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-    (function () {
-        function send(type, data) {
-            data = data || {};
-            window.ReactNativeWebView.postMessage(JSON.stringify({
-                type: type,
-                data: data
-            }));
+  (function () {
+    function send(type, data) {
+      data = data || {};
+      window.ReactNativeWebView.postMessage(JSON.stringify({
+        type: type,
+        data: data
+      }));
+    }
+
+    const app = new window.CompacNovelViewer.App(
+      document.getElementById('app')
+    );
+
+    const resizeObserver = new ResizeObserver(() => app.refresh());
+    resizeObserver.observe(app.element);
+
+    window.initBridge = function () {
+      app.listener.on((e) => {
+        const { type, ...data } = e;
+        send(type, data);
+      });
+
+      window.onMessage = function (messageString) {
+        try {
+          const message = JSON.parse(decodeURIComponent(escape(atob(messageString))));
+          switch (message.type) {
+            case 'load':
+              app.setBody(message.data.body, message.data.pageRate);
+              break;
+            case 'page':
+              app.goTo(~~message.data, { skipEvent: true });
+              break;
+            case 'pageRate':
+              app.goTo(Math.floor(app.maxPage * Math.parseFloat(message.data)), { skipEvent: true });
+              break;
+            case 'fontSize':
+              app.setConfiguration({
+                fontSize: ~~message.data
+              });
+              break;
+            case 'requestPage':
+              send('page', {
+                page: app.currentPage
+              });
+              break;
+            case 'requestPageMax':
+              send('pageMax', {
+                page: app.maxPage
+              });
+              break;
+            default:
+              send('error', {
+                message: 'unknown command',
+                receive: message
+              });
+          }
+        } catch (e) {
+          send('error', e);
         }
+      };
 
-        window.cnv = window.CompacNovelView.init(document.getElementById('app'));
-        window.initBridge = function () {
-            window.cnv.setHandler(send);
-            window.onMessage = function (messageString) {
-                try {
-                    var message = JSON.parse(decodeURIComponent(escape(atob(messageString))));
-                    switch (message.type) {
-                        case 'load':
-                            window.cnv.setPageRate(message.data.pageRate);
-                            window.cnv.setBody(message.data.body);
-                            break;
-                        case 'page':
-                            window.cnv.setPage(~~message.data);
-                            break;
-                        case 'pageRate':
-                            window.cnv.setPageRate(message.data);
-                            break;
-                        case 'fontName':
-                            window.cnv.setFontName(message.data);
-                            break;
-                        case 'fontSize':
-                            window.cnv.setFontSize(~~message.data);
-                            break;
-                        case 'requestPage':
-                            send('page', {
-                                page: window.cnv.getPage()
-                            });
-                            break;
-                        case 'requestPageMax':
-                            send('pageMax', {
-                                page: window.cnv.getPageMax()
-                            });
-                            break;
-                        default:
-                            send('error', {
-                                message: 'unknown command',
-                                receive: message
-                            });
-                    }
-                } catch (e) {
-                    send('error', e);
-                }
-            };
-
-            send('loaded');
-        };
-    })();
+      send('loaded');
+    };
+  })();
 </script>
 </body>
 </html>

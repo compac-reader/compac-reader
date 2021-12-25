@@ -8,7 +8,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "build-html": "cd workspace/compac-novel-view && yarn install && yarn build",
+    "postinstall": "npm run build-html"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
