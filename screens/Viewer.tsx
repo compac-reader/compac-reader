@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Button, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
 import { useNavigation, useRoute } from "@react-navigation/core";
@@ -9,6 +9,7 @@ import { fetchEpisode } from "../lib/narouClient";
 import { ReaderBrowser } from "../components/ReaderBrowser";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ViewerNavigation } from "../components/ViewerNavigation";
+import { ViewerFooter } from "../components/ViewerFooter";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
@@ -61,9 +62,20 @@ export function Viewer(props: Props) {
         style={{
           ...styles.header,
           paddingTop: safeAreaInsets.top,
-          // height: safeAreaInsets.top + 44,
+          height: safeAreaInsets.top + 56,
           opacity: isShowMenu ? 1 : 0,
         }}
+      />
+      <ViewerFooter
+        style={{
+          ...styles.footer,
+          paddingBottom: safeAreaInsets.bottom,
+          height: safeAreaInsets.bottom + 56,
+          opacity: isShowMenu ? 1 : 0,
+        }}
+        currentPage={page}
+        maxPage={pageMax}
+        onChangePage={(page) => setPage(page)}
       />
       <SafeAreaView style={styles.container}>
         <ReaderBrowser
@@ -104,4 +116,11 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 2,
   },
+  footer: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 2,
+  }
 });
