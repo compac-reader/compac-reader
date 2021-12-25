@@ -36,8 +36,8 @@ describe("fetchStory", () => {
       type: "header",
     });
     expect(story.episodes[1]).toMatchObject({
-      episodeId: "https:/ncode.syosetu.com1/",
-      id: "narou__n8352hj__https:/ncode.syosetu.com1/",
+      episodeId: "1",
+      id: "narou__n8352hj__1",
       index: 1,
       publishedAt: 1640358000000,
       revisedAt: 1640358000000,
@@ -53,8 +53,8 @@ describe("fetchStory", () => {
       type: "header",
     });
     expect(story.episodes[3]).toMatchObject({
-      episodeId: "https:/ncode.syosetu.com2/",
-      id: "narou__n8352hj__https:/ncode.syosetu.com2/",
+      episodeId: "2",
+      id: "narou__n8352hj__2",
       index: 3,
       publishedAt: 1640358000000,
       revisedAt: 1640358000000,
@@ -63,8 +63,8 @@ describe("fetchStory", () => {
       type: "episode",
     });
     expect(story.episodes[4]).toMatchObject({
-      episodeId: "https:/ncode.syosetu.com3/",
-      id: "narou__n8352hj__https:/ncode.syosetu.com3/",
+      episodeId: "3",
+      id: "narou__n8352hj__3",
       index: 4,
       publishedAt: 1640358000000,
       revisedAt: 1640358000000,
@@ -73,8 +73,8 @@ describe("fetchStory", () => {
       type: "episode",
     });
     expect(story.episodes[5]).toMatchObject({
-      episodeId: "https:/ncode.syosetu.com4/",
-      id: "narou__n8352hj__https:/ncode.syosetu.com4/",
+      episodeId: "4",
+      id: "narou__n8352hj__4",
       index: 5,
       publishedAt: 1640358000000,
       revisedAt: 1640358000000,
