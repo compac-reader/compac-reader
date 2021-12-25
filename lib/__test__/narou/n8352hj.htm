@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>なろうにある機能を全部試す</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="format-detection" content="telephone=no" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="なろうにある機能を全部試す" />
+<meta property="og:url" content="https://ncode.syosetu.com/n8352hj/" />
+<meta property="og:description" content="日常" />
+<meta property="og:image" content="https://sbo.syosetu.com/n8352hj/twitter.png" />
+<meta property="og:site_name" content="小説家になろう" />
+<meta name="twitter:site" content="@syosetu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="kouki_dan">
+
+<meta name="WWWC" content="2021/12/25 12:15" /><meta name="description" content="なろうで小説を書くために色々やってみる。// 無料オンライン小説です" />
+<link rel="shortcut icon" href="https://static.syosetu.com/view/images/narou.ico?psawph" />
+<link rel="icon" href="https://static.syosetu.com/view/images/narou.ico?psawph" />
+<link rel="apple-touch-icon-precomposed" href="https://static.syosetu.com/view/images/apple-touch-icon-precomposed.png?ojjr8x" />
+
+<link href="https://api.syosetu.com/writernovel/504662.Atom" rel="alternate" type="application/atom+xml" title="Atom" />
+
+<link rel="stylesheet" type="text/css" href="https://static.syosetu.com/novelview/css/reset.css?piu6zr" media="screen,print" />
+<link rel="stylesheet" type="text/css" href="https://static.syosetu.com/view/css/lib/jquery.hina.css?oyb9lo" media="screen,print" />
+
+<link rel="stylesheet" type="text/css" href="https://static.syosetu.com/view/css/lib/tippy.css?ov2lia" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/novelview/css/siori_toast_pc.css?q6lspt" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/view/css/lib/remodal.css?oqe20g" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/view/css/lib/remodal-default_pc-theme.css?piu6vb" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/novelview/css/remodal_pc.css?oyh9he" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/novelview/css/p_novelview-pc.css?r0lbw1" media="screen,print" /><link rel="stylesheet" type="text/css" href="https://static.syosetu.com/novelview/css/kotei.css?r1kiql" media="screen,print" />
+
+
+<script type="text/javascript"><!--
+var domain = 'syosetu.com';
+function wOpen(URL,NAME,OPTION){WO1 = window.open(URL,NAME,OPTION);WO1.window.focus();}
+//--></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.syosetu.com/view/js/lib/jquery.hina.js?oyez8w"></script>
+<script type="text/javascript" src="https://static.syosetu.com/view/js/global.js?r3f4t5"></script>
+<script type="text/javascript" src="https://static.syosetu.com/novelview/js/novelview.js?r452tb"></script>
+
+<script type="text/javascript" src="https://static.syosetu.com/view/js/lib/jquery.readmore.js?o7mki8"></script><script type="text/javascript" src="https://static.syosetu.com/view/js/lib/tippy.min.js?oqe1mv"></script><script type="text/javascript" src="https://static.syosetu.com/novelview/js/lib/jquery.raty.js?q6lspt"></script><script type="text/javascript" src="https://static.syosetu.com/novelview/js/novel_bookmarkmenu.js?q6lspt"></script><script type="text/javascript" src="https://static.syosetu.com/novelview/js/novel_point.js?q6lspt"></script><script type="text/javascript" src="https://static.syosetu.com/view/js/lib/remodal.min.js?oqe1mv"></script>
+<script type="text/javascript">
+var microadCompass = microadCompass || {};
+microadCompass.queue = microadCompass.queue || [];
+</script>
+<script type="text/javascript" charset="UTF-8" src="//j.microad.net/js/compass.js" onload="new microadCompass.AdInitializer().initialize();" async></script>
+
+<script>
+window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+gnshbrequest.cmd.push(function(){
+gnshbrequest.registerPassback("1511276");
+gnshbrequest.registerPassback("1511277");
+});
+</script>
+<script async src="https://cpt.geniee.jp/hb/v1/210776/476/wrapper.min.js"></script>
+
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+
+<rdf:Description
+rdf:about="https://ncode.syosetu.com/n8352hj/
+dc:identifier="https://ncode.syosetu.com/n8352hj/"
+dc:title="なろうにある機能を全部試す"
+trackback:ping="https://trackback.syosetu.com/send/novel/ncode/1918161/" />
+</rdf:RDF>
+-->
+
+</head>
+<body onload="initRollovers();">
+
+<a id="pageBottom" href="#footer">↓</a>
+
+<div id="novel_header">
+<ul id="head_nav">
+<li id="login">
+<a href="https://ssl.syosetu.com/login/input/"><span class="attention">ログイン</span></a>
+</li>
+<li><a href="https://ncode.syosetu.com/novelview/infotop/ncode/n8352hj/">小説情報</a></li>
+<li><a href="https://novelcom.syosetu.com/impression/list/ncode/1918161/">感想</a></li>
+<li><a href="https://novelcom.syosetu.com/novelreview/list/ncode/1918161/">レビュー</a></li>
+<li><a href="https://pdfnovels.net/n8352hj/" class="menu" target="_blank">縦書きPDF</a></li>
+
+<li class="booklist">
+
+<span class="button_bookmark logout">ブックマークに追加</span>
+
+<input type="hidden" name="bookmark_url" value="https://syosetu.com/favnovelmain/addajax/favncode/1918161/no/0/?token=ae9b3908529b54d8e144c62adc67a75c">
+<input type="hidden" id="device_type" value="pc">
+</li>
+
+
+
+<li>
+<a
+style="border-left:none;"
+
+href="https://twitter.com/intent/tweet?text=%E3%81%AA%E3%82%8D%E3%81%86%E3%81%AB%E3%81%82%E3%82%8B%E6%A9%9F%E8%83%BD%E3%82%92%E5%85%A8%E9%83%A8%E8%A9%A6%E3%81%99&amp;url=https%3A%2F%2Fncode.syosetu.com%2Fn8352hj%2F&amp;hashtags=narou%2CnarouN8352HJ">
+
+<img src="https://static.syosetu.com/novelview/img/Twitter_logo_blue.png?nrkioy" class="menu" style="margin-left:7px; margin-right:7px;" height="20px" />
+</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</li>
+</ul>
+
+<div id="novelnavi_right">
+<div class="toggle" id="menu_on">表示調整</div>
+<div class="toggle_menuclose" id="menu_off">閉じる</div>
+
+<div class="novelview_navi">
+<img src="https://static.syosetu.com/novelview/img/novelview_on.gif?n7nper" width="100" height="20" style="cursor:pointer;" onclick="sasieclick(true);" id="sasieflag" alt="挿絵表示切替ボタン" />
+<script type="text/javascript"><!--
+sasieinit();
+//--></script>
+
+<div class="color">
+▼配色<br />
+<label><input type="radio" value="0" name="colorset" />指定なし(作者設定優先)</label><br />
+<label><input type="radio" value="1" name="colorset" />標準設定</label><br />
+<label><input type="radio" value="2" name="colorset" />ブラックモード</label><br />
+<label><input type="radio" value="3" name="colorset" />ブラックモード2</label><br />
+<label><input type="radio" value="4" name="colorset" />通常[1]</label><br />
+<label><input type="radio" value="5" name="colorset" />通常[2]</label><br />
+<label><input type="radio" value="6" name="colorset" />シンプル</label><br />
+<label><input type="radio" value="7" name="colorset" />おすすめ設定</label>
+</div>
+
+
+▼メニューバー<br />
+<label><input type="checkbox" name="fix_menu_bar" />追従</label>
+<span id="menu_off_2">×閉じる</span>
+
+</div><!--novelview_navi-->
+</div><!-- novelnavi_right -->
+
+</div><!--novel_header-->
+
+<div id="container">
+
+
+<div class="toaster bookmarker_addend" id="toaster_success">
+<strong>しおりの位置情報を変更しました</strong>
+</div>
+<div class="toaster bookmarker_error" id="toaster_error">
+<strong>エラーが発生しました</strong><br />
+<div class="text-right">
+<a href="#" class="toaster_close">閉じる</a>
+</div>
+</div>
+
+<div class="narou_modal" data-remodal-id="add_bookmark">
+<div class="close" id="add_bookmark_modal_close"></div>
+
+<div class="scroll">
+<p class="fav_noveltitle" id="add_bookmark_title"></p>
+<p class="mes">ブックマークしました。</p>
+
+<div class="favnovelmain_update">
+<h3>設定</h3>
+<p>
+<input type="checkbox" name="isnotice" value="1"  />更新通知
+<span class="left10" id="isnoticecnt">0/400</span>
+</p>
+
+<p>
+<label><input type="radio" name="jyokyo" class="bookmark_jyokyo" value="2"  checked="checked" />公開</label>
+<label><input type="radio" name="jyokyo" class="bookmark_jyokyo left10" value="1"  />非公開</label>
+</p>
+
+<div class="toaster bookmarker_addend" id="bookmark_save_toaster">
+<strong>設定を保存しました</strong>
+</div>
+
+<div class="toaster bookmarker_error" id="bookmark_save_err_toaster">
+<strong>エラーが発生しました</strong>
+<div id="bookmark_save_errmsg"></div>
+<div class="text-right">
+<a href="#" class="toaster_close">閉じる</a>
+</div>
+</div>
+
+<p>
+カテゴリ
+<select name="categoryid" id="category_select"></select>
+</p>
+
+<input type="button" class="button toast" value="設定を保存する" id="bookmark_setting_submit" />
+<input type="hidden" id="bookmark_setting_url" value="https://syosetu.com/favnovelmain/updateajax/" />
+<input type="hidden" id="bookmark_setting_useridfavncode" value="" />
+<input type="hidden" id="bookmark_setting_xidfavncode" value="" />
+<input type="hidden" id="bookmark_setting_token" value="" />
+</div>
+<!-- favnovelmain_update -->
+
+<a href="//syosetu.com/favnovelmain/list/" class="button" id="modal_bookmark_btn">ブックマークへ</a>
+<input type="hidden" value="//syosetu.com/favnovelmain/list/" id="base_bookmark_url">
+</div><!-- scroll -->
+</div>
+<!-- narou_modal -->
+
+<div class="narou_modal" data-remodal-id="delconf_bookmark">
+<div class="close" id="delconf_bookmark_modal_close"></div>
+
+<div class="scroll">
+<p class="mes">以下のブックマークを解除します。<br />よろしければ[解除]を押してください。</p>
+<p class="fav_noveltitle" id="delconf_bookmark_title"></p>
+<input class="button" type="button" value="解除" id="delconf_bookmark_submit" />
+<input type="hidden" name="del_bookmark_url" value="https://syosetu.com/favnovelmain/deleteajax/" />
+<input type="hidden" name="del_bookmark_token" id="del_bookmark_token" value="" />
+</div><!-- scroll -->
+</div>
+
+<div class="narou_modal" data-remodal-id="delend_bookmark">
+<div class="close" id="delend_bookmark_modal_close"></div>
+<p class="mes">ブックマークを解除しました。</p>
+</div>
+
+<div class="narou_modal modal_error" data-remodal-id="error_modal">
+<div class="close" id="error_modal_close"></div>
+
+<div class="scroll">
+<p class="mes err">エラーが発生しました。</p>
+<div id="modal_err_mes" class="err"></div>
+<p class="guide">エラーの原因がわからない場合は<a href="https://syosetu.com/help/top/" target="_blank">ヘルプ</a>(Q&A)や<a href="https://syosetu.com/site/man/" target="_blank">各種マニュアル</a>をご確認ください。</p>
+</div><!-- scroll -->
+</div>
+<div class="box_announce_bookmark announce_bookmark">ブックマーク登録する場合は<a href="https://ssl.syosetu.com/login/input/" target="_blank">ログイン</a>してください。</div>
+
+  
+
+
+
+<div id="novel_contents">
+<div id="novel_color">
+
+
+<p class="novel_title">なろうにある機能を全部試す</p>
+
+
+<div class="novel_writername">
+作者：<a href="https://mypage.syosetu.com/504662/">kouki_dan</a>
+</div><!--novel_writername-->
+
+<div id="novel_ex">なろうで小説を書くために色々やってみる。</div>
+
+<div class="koukoku_728">
+
+<div id="7bd7d6eb84fd26cb3f6aa75628a31df6" >
+<script type="text/javascript">
+microadCompass.queue.push({
+"spot": "7bd7d6eb84fd26cb3f6aa75628a31df6"
+});
+</script>
+</div>
+
+
+</div><!--koukoku_728-->
+
+
+
+
+<div class="index_box">
+ <div class="chapter_title">ここから始める</div>
+ 
+<dl class="novel_sublist2">
+<dd class="subtitle">
+<a href="/n8352hj/1/">小説家を目指すエッセイ</a>
+</dd>
+<dt class="long_update">
+2021/12/25 11:44</dt>
+</dl>
+ <div class="chapter_title">初めての章</div>
+ 
+<dl class="novel_sublist2">
+<dd class="subtitle">
+<a href="/n8352hj/2/">新しい章。新しい朝。</a>
+</dd>
+<dt class="long_update">
+2021/12/25 11:51</dt>
+</dl>
+ 
+<dl class="novel_sublist2">
+<dd class="subtitle">
+<a href="/n8352hj/3/">文字と絵</a>
+</dd>
+<dt class="long_update">
+2021/12/25 12:05</dt>
+</dl>
+ 
+<dl class="novel_sublist2">
+<dd class="subtitle">
+<a href="/n8352hj/4/">前書きと後書き。それとルビ</a>
+</dd>
+<dt class="long_update">
+2021/12/25 12:15</dt>
+</dl>
+</div><!--index_box-->
+
+</div><!--novel_color-->
+
+<div class="wrap_menu_novelview_after">
+<div class="box_menu_novelview_after clearfix">
+<ul class="menu_novelview_after">
+
+<li class="list_menu_novelview_after"><a href="https://syosetu.com/favnovelmain/list/">ブックマーク</a></li>
+
+
+</ul>
+
+<ul class="footerbookmark"><li class="booklist">
+
+<span class="button_bookmark logout">ブックマークに追加</span>
+
+<input type="hidden" name="bookmark_url" value="https://syosetu.com/favnovelmain/addajax/favncode/1918161/no/0/?token=ae9b3908529b54d8e144c62adc67a75c">
+<input type="hidden" id="device_type" value="pc">
+</li>
+
+</ul>
+</div><!-- footer_bookmark -->
+</div><!-- wrap -->
+
+
+<div class="box_announce_bookmark announce_bookmark">ブックマーク登録する場合は<a href="https://ssl.syosetu.com/login/input/" target="_blank">ログイン</a>してください。</div>
+
+
+<div class="koukoku_728">
+
+<div id="d2cf9453b4d606650c193e995d062c05">
+<script type="text/javascript">
+microadCompass.queue.push({
+"spot": "d2cf9453b4d606650c193e995d062c05",
+"url": "${COMPASS_EXT_URL}",
+"referrer": "${COMPASS_EXT_REF}"
+});
+</script>
+</div>
+
+
+</div><!--koukoku_728-->
+
+
+
+
+<div id="novel_attention">
++注意+<br />
+<span class="attention">特に記載なき場合、掲載されている小説はすべてフィクションであり実在の人物・団体等とは一切関係ありません。<br />
+特に記載なき場合、掲載されている小説の著作権は作者にあります(一部作品除く)。<br />
+作者以外の方による小説の引用を超える無断転載は禁止しており、行った場合、著作権法の違反となります。<br />
+</span><br />
+この小説はリンクフリーです。ご自由にリンク(紹介)してください。<br />
+この小説はスマートフォン対応です。スマートフォンかパソコンかを自動で判別し、適切なページを表示します。<br />
+小説の読了時間は毎分500文字を読むと想定した場合の時間です。目安にして下さい。
+</div><!--novel_attention-->
+
+
+<div id="novel_footer">
+<ul class="undernavi">
+<li><a href="https://mypage.syosetu.com/504662/">作者マイページ</a></li>
+<li><a href="https://ncode.syosetu.com/novelview/infotop/ncode/n8352hj/#trackback">トラックバック</a></li>
+
+
+
+<li><a href="https://syosetu.com/ihantsuhou/input/ncode/1918161/">情報提供</a></li>
+</ul>
+</div><!--novel_footer-->
+
+</div><!--novel_contents-->
+
+
+
+
+
+
+<div class="koukoku_728">
+
+<script type="text/javascript">
+var microadCompass = microadCompass || {};
+microadCompass.queue = microadCompass.queue || [];
+</script>
+<script type="text/javascript" charset="UTF-8" src="//j.microad.net/js/compass.js" onload="new microadCompass.AdInitializer().initialize();" async></script>
+<div id="de254be27aa1e4b80f640e6badc6b426" >
+<script type="text/javascript">
+microadCompass.queue.push({
+"spot": "de254be27aa1e4b80f640e6badc6b426"
+});
+</script>
+</div>
+
+
+
+</div><!--koukoku_728-->
+
+
+
+<a id="pageTop" href="#main">↑ページトップへ</a>
+
+</div><!--container-->
+
+<!-- フッタここから -->
+<div id="footer">
+<ul class="undernavi">
+<li><a href="https://syosetu.com">小説家になろう</a></li>
+<li><a href="https://pdfnovels.net">タテ書き小説ネット</a></li>
+<li><a href="https://yomou.syosetu.com">小説を読もう！</a></li>
+<li id="search">
+<form action="https://yomou.syosetu.com/search.php">
+<input name="word" size="21" type="text" />
+<input value="検索" type="submit" />
+</form>
+</li>
+</ul>
+</div><!--footer-->
+<!-- フッタここまで -->
+
+
+<script type="text/javascript"><!--
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3637811-4', 'auto');
+  ga('send', 'pageview');
+
+//--></script>
+
+
+<script type="text/javascript" src="//d-cache.microad.jp/js/td_sn_access.js"></script>
+<script type="text/javascript">
+  microadTd.SN.start({})
+</script>
+
+
+
+
+</body></html>
