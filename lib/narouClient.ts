@@ -1,10 +1,10 @@
 import * as httpClient from "./httpClient";
 import cheerio from "cheerio";
-import { BareEpisode, Episode } from "../models/episode";
+import { BareEpisode } from "../models/episode";
 import { BareStory, EpisodeInStory } from "../models/story";
 
 const publisherType = "narou";
-const NCODE_URL_BASE = "http://ncode.syosetu.com";
+const NCODE_URL_BASE = "https://ncode.syosetu.com";
 
 /**
  * load from `http://ncode.syosetu.com/:id/`
