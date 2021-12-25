@@ -13,6 +13,7 @@ export class App {
   private _currentBody: string = '';
 
   private _currentPage: number = 0;
+  private _pageProgressRate: number = 0;
 
   private _currentTouchIdentifier: number | null = null;
   private _touchStartX: number = 0;
@@ -40,6 +41,10 @@ export class App {
     return this._pages[0].maxPage || 1;
   }
 
+  get pageProgressRate() {
+    return this._pageProgressRate;
+  }
+
   private initDOM() {
     this._element.classList.add('compac-novel-viewer');
     this._element.innerHTML = '';
@@ -57,8 +62,9 @@ export class App {
     this._element.addEventListener('touchend', this.onTouchEnd);
   }
 
-  setBody(body: string) {
+  setBody(body: string, pageProgressRate: number = 0) {
     this._currentBody = body;
+    this._pageProgressRate = pageProgressRate;
     this.refresh();
   }
 
@@ -80,7 +86,7 @@ export class App {
     this._element.style.setProperty('--compacPageHeight', `${height - this._configuration.pagePaddingX * 2}px`);
 
     if (this._currentBody) {
-      const progressRate = this._currentPage / this.maxPage;
+      const progressRate = this._pageProgressRate;
 
       const body = convertBody(this._currentBody);
       this._pages.forEach((page) => page.currentBody = body);
@@ -96,6 +102,8 @@ export class App {
     if (pageNum === this._currentPage) return;
 
     this._currentPage = pageNum;
+    this._pageProgressRate = this._currentPage / this.maxPage;
+
     this._pages.forEach((page) => {
       switch (page.pos) {
         case 'left':
@@ -131,6 +139,7 @@ export class App {
     }
 
     this._currentPage = target;
+    this._pageProgressRate = this._currentPage / this.maxPage;
 
     this._pages.forEach((page) => {
       switch (page.pos) {
@@ -172,6 +181,7 @@ export class App {
     }
 
     this._currentPage = target;
+    this._pageProgressRate = this._currentPage / this.maxPage;
 
     this._pages.forEach((page) => {
       switch (page.pos) {

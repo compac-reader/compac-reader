@@ -54,7 +54,7 @@
               app.goTo(~~message.data, { skipEvent: true });
               break;
             case 'pageRate':
-              // window.cnv.setPageRate(message.data);
+              app.goTo(Math.floor(app.maxPage * Math.parseFloat(message.data)), { skipEvent: true });
               break;
             case 'fontSize':
               app.setConfiguration({
