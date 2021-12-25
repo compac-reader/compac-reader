@@ -10,7 +10,6 @@ const mockedHttpClient = httpClient as jest.Mocked<typeof httpClient>;
 mockedHttpClient.fetchHTML.mockImplementation((url, _) => {
   return new Promise((resolved, _) => {
     let path = new URL(url).pathname.substring(1);
-    console.log(path);
     if (path.endsWith("/")) {
       path = path.slice(0, -1);
     }
@@ -40,8 +39,8 @@ describe("fetchStory", () => {
       episodeId: "https:/ncode.syosetu.com1/",
       id: "narou__n8352hj__https:/ncode.syosetu.com1/",
       index: 1,
-      publishedAt: 1640358032400,
-      revisedAt: 1640358032400,
+      publishedAt: 1640358000000,
+      revisedAt: 1640358000000,
       storyId: "narou__n8352hj",
       title: "小説家を目指すエッセイ",
       type: "episode",
@@ -57,8 +56,8 @@ describe("fetchStory", () => {
       episodeId: "https:/ncode.syosetu.com2/",
       id: "narou__n8352hj__https:/ncode.syosetu.com2/",
       index: 3,
-      publishedAt: 1640358032400,
-      revisedAt: 1640358032400,
+      publishedAt: 1640358000000,
+      revisedAt: 1640358000000,
       storyId: "narou__n8352hj",
       title: "新しい章。新しい朝。",
       type: "episode",
@@ -67,8 +66,8 @@ describe("fetchStory", () => {
       episodeId: "https:/ncode.syosetu.com3/",
       id: "narou__n8352hj__https:/ncode.syosetu.com3/",
       index: 4,
-      publishedAt: 1640358032400,
-      revisedAt: 1640358032400,
+      publishedAt: 1640358000000,
+      revisedAt: 1640358000000,
       storyId: "narou__n8352hj",
       title: "文字と絵",
       type: "episode",
@@ -77,8 +76,8 @@ describe("fetchStory", () => {
       episodeId: "https:/ncode.syosetu.com4/",
       id: "narou__n8352hj__https:/ncode.syosetu.com4/",
       index: 5,
-      publishedAt: 1640358032400,
-      revisedAt: 1640358032400,
+      publishedAt: 1640358000000,
+      revisedAt: 1640358000000,
       storyId: "narou__n8352hj",
       title: "前書きと後書き。それとルビ",
       type: "episode",

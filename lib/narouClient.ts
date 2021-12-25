@@ -142,5 +142,5 @@ export async function fetchEpisode(
 function parseDateFromString(str: string) {
   const m = str.match(/(\d+)(?:年|\/)\s*(\d+)(?:月|\/)\s*(\d+)日?/);
   if (!m) return 0;
-  return Date.parse(`${m[1]}/${m[2]}/${m[3]}`) + 60 * 60 * 9;
+  return Date.parse(`${m[1]}-${m[2]}-${m[3]}T00:00:00+09:00`);
 }
