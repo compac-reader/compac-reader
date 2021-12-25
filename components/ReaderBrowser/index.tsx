@@ -52,19 +52,17 @@ export function ReaderBrowser(props: Props) {
       case "loaded":
         startRenderHTML();
         break;
-      case "drawn":
-        props.onUpdatePageMax(data.pageMax);
-        break;
       case "changePage":
-        props.onChangePage(data.page);
+        props.onUpdatePageMax(data.maxPage);
+        props.onChangePage(data.currentPage);
         break;
       case "tap":
         props.onTap();
         break;
-      case "pullPrev":
+      case "reachPageStart":
         props.onPullPrev();
         break;
-      case "pullNext":
+      case "reachPageEnd":
         props.onPullNext();
         break;
       case "debug":
@@ -80,6 +78,8 @@ export function ReaderBrowser(props: Props) {
       ref={webViewRef}
       style={styles.container}
       originWhitelist={["*"]}
+      overScrollMode="never"
+      bounces={false}
       source={
         htmlAsset?.localUri
           ? {

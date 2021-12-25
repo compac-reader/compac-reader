@@ -1,70 +1,65 @@
-var path = require('path');
-var webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
-var paths = (function () {
-    var rootPath = path.join(__dirname, './');
-    return {
-        root: rootPath,
-        nodeModules: path.join(rootPath, './node_modules/'),
-        src: path.join(rootPath, './src'),
-        output: path.join(rootPath, './_build')
-    };
-})();
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-    entry: {
-        bundle: [
-            path.join(paths.nodeModules, '/normalize.css/normalize.css'),
-            path.join(paths.src, '/index.js')
-        ]
-    },
-    output: {
-        path: paths.output,
-        filename: '[name].js',
-        publicPath: "",
-    },
-    module: {
-        rules: [
-            {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
-                    }
-                }
-            },
-            {
-                test: /\.s?[ac]ss$/i,
-                use: [
-                    // Creates `style` nodes from JS strings
-                    "style-loader",
-                    // Translates CSS into CommonJS
-                    "css-loader",
-                    // Compiles Sass to CSS
-                    "sass-loader",
-                ],
-            },
-            {
-                test: /\.(woff2?)(\?[a-z0-9=&.]+)?$/,
-                use: {
-                    loader: 'base64-inline-loader',
-                    options: {
-                        limit: 10000000,
-                    }
-                }
-            },
-        ]
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            scriptLoading: 'blocking',
-            template: "./index.html",
-            inject: "head"
-        }),
-        new HtmlInlineScriptPlugin(),
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? false : 'eval-cheap-module-source-map',
+  entry: {
+    'compac-novel-viewer': [
+      path.join(__dirname, 'global.css'),
+      path.join(__dirname, 'src', 'style.css'),
+      path.join(__dirname, 'src', 'index.ts')
     ]
+  },
+  output: {
+    path: path.join(__dirname, '..', '..', 'components', 'ReaderBrowser'),
+    library: 'CompacNovelViewer',
+    libraryTarget: 'umd',
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+    alias: {
+      '@': path.join(__dirname, 'dist')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|ts)$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-typescript']
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+        ]
+      },
+      {
+        test: /\.(png|gif|jpg|woff2?)$/,
+        type: 'asset/inline'
+      },
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'index.html'),
+      inject: 'head',
+      scriptLoading: 'blocking'
+    }),
+    new HtmlInlineScriptPlugin()
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public')
+    }
+  }
 };

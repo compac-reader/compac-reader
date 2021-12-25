@@ -12,5 +12,7 @@ npm-debug.*
 *.orig.*
 web-build/
 
+components/ReaderBrowser/index.html
+
 # macOS
 .DS_Store
