@@ -92,14 +92,14 @@ export class App {
       this._pages.forEach((page) => page.currentBody = body);
 
       const page = Math.min(Math.floor(this.maxPage * progressRate), this.maxPage - 1);
-      this.goTo(page);
+      this.goTo(page, { force: true });
     }
   }
 
-  goTo(pageNum: number, options: { skipEvent?: boolean } = {}) {
+  goTo(pageNum: number, options: { force?: boolean, skipEvent?: boolean } = {}) {
     if (pageNum < 0) pageNum = 0;
     if (pageNum >= this._pages[0].maxPage) pageNum = this._pages[0].maxPage - 1;
-    if (pageNum === this._currentPage) return;
+    if (!options.force && pageNum === this._currentPage) return;
 
     this._currentPage = pageNum;
     this._pageProgressRate = this._currentPage / this.maxPage;
