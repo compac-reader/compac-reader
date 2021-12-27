@@ -13,7 +13,9 @@ mockedHttpClient.fetchHTML.mockImplementation((url, _) => {
     if (path.endsWith("/")) {
       path = path.slice(0, -1);
     }
-    const html = fs.readFileSync(`lib/__test__/narou/${path}.htm`).toString();
+    const html = fs
+      .readFileSync(`lib/__test__/narou/${path}.html.testdata`)
+      .toString();
     resolved(cheerio.load(html));
   });
 });
