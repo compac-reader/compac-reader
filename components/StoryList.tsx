@@ -4,10 +4,10 @@ import { Story } from "../models/story";
 import { StoryItem } from "./StoryItem";
 
 export type Props = {
-  stories: Story[];
+  stories: Omit<Story, "episodes">[];
   isLoading: boolean;
   onRefresh: () => void;
-  onPressStory: (story: Story) => void;
+  onPressStory: (storyId: string) => void;
 };
 
 export function StoryList(props: Props) {
@@ -19,7 +19,7 @@ export function StoryList(props: Props) {
           <StoryItem
             story={item}
             onPress={() => {
-              props.onPressStory(item);
+              props.onPressStory(item.id);
             }}
           />
         );

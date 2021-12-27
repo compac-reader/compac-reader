@@ -1,10 +1,11 @@
-import { Episode } from "./episode";
-import { ListedEpisode } from "../lib/narouClient"
+import { ListedEpisode } from "../lib/narouClient";
 
 export type Story = {
   id: string;
+  publisherType: "narou";
+  publisherCode: string;
   title: string;
-  icon: string;
+  icon?: string;
   authorName: string;
   description: string;
   lastUpdatedAt: number;

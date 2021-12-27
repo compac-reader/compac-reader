@@ -13,14 +13,14 @@ export type ListedEpisode =
       title: string;
       publishedAt: number;
       revisedAt: number;
-      index?: number;
+      index: number;
     }
   | {
       id: string;
       storyId: string;
       type: "header";
       title: string;
-      index?: number;
+      index: number;
     };
 
 export type Story = {
@@ -108,7 +108,7 @@ export async function fetchStory(publisherCode: string): Promise<Story> {
         title,
         publishedAt: publishedAt,
         revisedAt: publishedAt,
-        index: undefined,
+        index: 0,
       });
     }
   })();
@@ -169,7 +169,7 @@ export async function fetchEpisode(
   })();
 
   return {
-    id: `${publisherType}__${publisherCode}__${episodeId}`,
+    id: `${publisherType}__${publisherCode}__${episodeId || "0"}`,
     publisherType,
     publisherCode,
     episodeId,
