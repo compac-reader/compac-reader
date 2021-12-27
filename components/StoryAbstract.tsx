@@ -13,7 +13,9 @@ import { SectionHeader } from "./SectionHeader";
 import { LinearGradient } from "expo-linear-gradient";
 
 export type Props = {
-  story: Story;
+  story: {
+    description: string;
+  };
 };
 const bodyMaxHeight = 80;
 

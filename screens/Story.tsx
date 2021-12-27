@@ -1,47 +1,15 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FlatList, StyleSheet, View, Text } from "react-native";
-import { defaultIcon } from "../assets/images";
+import { EpisodeChapter } from "../components/EpisodeChapter";
 import { EpisodeItem } from "../components/EpisodeItem";
 import { SectionHeader } from "../components/SectionHeader";
 import { StoryAbstract } from "../components/StoryAbstract";
 import { StoryHeader } from "../components/StoryHeader";
 import { useColors } from "../hooks/useColors";
-import { fetchStory } from "../lib/narouClient";
-import { Story as StoryModel } from "../models/story";
 import { RootStackParamList } from "./Root";
-
-function useStory(id: string): StoryModel | undefined {
-  const [story, setStory] = useState<StoryModel>();
-
-  useEffect(() => {
-    fetchStory(id).then((story) => {
-      const s: StoryModel = {
-        id: story.id,
-        title: story.title,
-        icon: story.icon || defaultIcon,
-        authorName: story.authorName,
-        description: story.description,
-        lastUpdatedAt: 0,
-        episodes: story.episodes.map((e) => {
-          return {
-            episodeId: e.episodeId || "",
-            isRead: false,
-            isDownload: false,
-            title: e.title,
-            publishedAt: e.publishedAt || 0,
-            revisedAt: e.revisedAt || 0,
-            index: e.index,
-          };
-        }),
-      };
-      setStory(s);
-    });
-  }, []);
-
-  return story;
-}
+import { useStory } from "../hooks/useStory";
 
 type StoryScreenRouteProp = RouteProp<RootStackParamList, "Story">;
 type StoryScreenNavigationProp = NativeStackNavigationProp<
@@ -69,10 +37,12 @@ export function Story() {
         </View>
       )}
       renderItem={({ item }) => {
-        // TODO: separate chapter_title
+        if (item.type === "header") {
+          return <EpisodeChapter episode={item} />;
+        }
         return (
           <EpisodeItem
-            episode={item}
+            episode={{ ...item, isRead: false, isDownload: false }}
             bookmark={{ episodeId: "" }}
             onPress={() => {
               navigation.navigate("Viewer", {

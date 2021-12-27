@@ -6,7 +6,14 @@ import { useColors } from "../hooks/useColors";
 import { Bookmark, Episode } from "../models/episode";
 
 export type Props = {
-  episode: Episode;
+  episode: {
+    episodeId: string;
+    title: string;
+    publishedAt: number;
+    revisedAt: number;
+    isRead: boolean;
+    isDownload: boolean;
+  };
   bookmark: Bookmark;
   onPress: () => void;
 };
@@ -16,7 +23,13 @@ export function EpisodeItem(props: Props) {
   const colors = useColors();
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={{ ...styles.container, backgroundColor: colors.background }}>
+      <View
+        style={{
+          ...styles.container,
+          backgroundColor: colors.background,
+          borderBottomColor: colors.border,
+        }}
+      >
         {bookmark.episodeId === episode.episodeId ? (
           <View
             style={{ ...styles.bookmark, backgroundColor: colors.primary }}
@@ -55,7 +68,10 @@ export function EpisodeItem(props: Props) {
 }
 
 type MarkProps = {
-  episode: Episode;
+  episode: {
+    isRead: boolean;
+    isDownload: boolean;
+  };
 };
 function Mark({ episode }: MarkProps) {
   const colors = useColors();
@@ -77,7 +93,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#eeeeee",
   },
   bookmark: {
     position: "absolute",

@@ -1,26 +1,5 @@
-import { BareEpisode, Episode } from "./episode";
-
-export type EpisodeInStory = {
-  id: string;
-  storyId: string;
-  type: string;
-  episodeId?: string;
-  title: string;
-  publishedAt?: number;
-  revisedAt?: number;
-  index: number | undefined;
-};
-
-export type BareStory = {
-  id: string;
-  publisherType: string;
-  publisherCode: string;
-  title: string;
-  icon: string;
-  authorName: string;
-  description: string;
-  episodes: EpisodeInStory[];
-};
+import { Episode } from "./episode";
+import { ListedEpisode } from "../lib/narouClient"
 
 export type Story = {
   id: string;
@@ -29,5 +8,5 @@ export type Story = {
   authorName: string;
   description: string;
   lastUpdatedAt: number;
-  episodes: Episode[];
+  episodes: ListedEpisode[];
 };
