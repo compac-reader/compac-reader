@@ -13,5 +13,5 @@ export const DEFAULT_CONFIGURATION: Configuration = {
   fontSize: 18,
   fontFamily: 'serif',
   pagePaddingX: 50,
-  pagePaddingY: 50
+  pagePaddingY: 30
 };

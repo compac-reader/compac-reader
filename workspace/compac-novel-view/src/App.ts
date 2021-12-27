@@ -7,6 +7,7 @@ import { Page } from './Page';
 export class App {
   private readonly _emitter = createEmitter<CompacNovelViewerEvents>();
   private readonly _element: HTMLDivElement;
+  private _innerElement!: HTMLDivElement;
 
   private _pages!: Page[];
   private _configuration: Configuration;
@@ -49,9 +50,13 @@ export class App {
     this._element.classList.add('compac-novel-viewer');
     this._element.innerHTML = '';
 
+    this._innerElement = document.createElement('div');
+    this._innerElement.classList.add('compac-novel-viewer__inner');
+    this._element.appendChild(this._innerElement);
+
     this._pages = (new Array(3)).fill(0).map((_, i) => {
       const element = document.createElement('div');
-      this._element.appendChild(element);
+      this._innerElement.appendChild(element);
       const page = new Page(element);
       page.pos = (['left', 'center', 'right'] as const)[i];
       return page;
@@ -74,16 +79,16 @@ export class App {
   }
 
   refresh() {
-    const { width, height } = this._element.getBoundingClientRect();
+    const { width, height } = this._innerElement.getBoundingClientRect();
 
-    this._element.style.setProperty('--compacFontSize', `${this._configuration.fontSize}px`);
-    this._element.style.setProperty('--compacFontFamily', this._configuration.fontFamily);
-    this._element.style.setProperty('--compacBackColor', this._configuration.backColor);
-    this._element.style.setProperty('--compacTextColor', this._configuration.textColor);
-    this._element.style.setProperty('--compacPagePaddingX', `${this._configuration.pagePaddingX}px`);
-    this._element.style.setProperty('--compacPagePaddingY', `${this._configuration.pagePaddingY}px`);
-    this._element.style.setProperty('--compacPageWidth', `${width - this._configuration.pagePaddingX * 2}px`);
-    this._element.style.setProperty('--compacPageHeight', `${height - this._configuration.pagePaddingX * 2}px`);
+    this._innerElement.style.setProperty('--compacFontSize', `${this._configuration.fontSize}px`);
+    this._innerElement.style.setProperty('--compacFontFamily', this._configuration.fontFamily);
+    this._innerElement.style.setProperty('--compacBackColor', this._configuration.backColor);
+    this._innerElement.style.setProperty('--compacTextColor', this._configuration.textColor);
+    this._innerElement.style.setProperty('--compacPagePaddingX', `${this._configuration.pagePaddingX}px`);
+    this._innerElement.style.setProperty('--compacPagePaddingY', `${this._configuration.pagePaddingY}px`);
+    this._innerElement.style.setProperty('--compacPageWidth', `${width - this._configuration.pagePaddingX * 2}px`);
+    this._innerElement.style.setProperty('--compacPageHeight', `${height - this._configuration.pagePaddingY * 2}px`);
 
     if (this._currentBody) {
       const progressRate = this._pageProgressRate;
