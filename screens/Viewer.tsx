@@ -4,26 +4,13 @@ import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { useColors } from "../hooks/useColors";
-import { BareEpisode } from "../models/episode";
-import { fetchEpisode } from "../lib/narouClient";
 import { ReaderBrowser } from "../components/ReaderBrowser";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ViewerNavigation } from "../components/ViewerNavigation";
 import { ViewerFooter } from "../components/ViewerFooter";
+import { useEpisode } from "../hooks/useEpisode";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
-
-function useEpisode(id: string, episodeId: string): BareEpisode | undefined {
-  const [episode, setEpisode] = useState<BareEpisode | undefined>(undefined);
-  useEffect(() => {
-    fetchEpisode(id, episodeId).then((episode) => {
-      // fetchEpisode("n6829bd", "1").then((episode) => { // 普通の
-      // fetchEpisode("n1108hj", "1").then((episode) => { // 挿絵付き
-      setEpisode(episode);
-    });
-  }, []);
-  return episode;
-}
 
 type Props = {
   initialPageRate?: number;

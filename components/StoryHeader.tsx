@@ -2,10 +2,14 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useColors } from "../hooks/useColors";
-import { Story } from "../models/story";
+import { defaultIcon } from "../assets/images";
 
 export type Props = {
-  story: Story;
+  story: {
+    title: string;
+    icon: string;
+    authorName: string;
+  };
 };
 
 function onPressIcon() {
@@ -17,7 +21,10 @@ export function StoryHeader({ story }: Props) {
   return (
     <View style={{ ...styles.container, backgroundColor: Colors.background }}>
       <TouchableOpacity onPress={onPressIcon}>
-        <Image style={styles.image} source={{ uri: story.icon }} />
+        <Image
+          style={styles.image}
+          source={{ uri: story.icon || defaultIcon }}
+        />
       </TouchableOpacity>
       <View style={styles.info}>
         <Text style={{ ...styles.title, color: colors.text }}>
