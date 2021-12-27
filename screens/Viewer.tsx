@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
 import { useNavigation, useRoute } from "@react-navigation/core";
@@ -77,27 +77,25 @@ export function Viewer(props: Props) {
         maxPage={pageMax}
         onChangePage={(page) => setPage(page)}
       />
-      <SafeAreaView style={styles.container}>
-        <ReaderBrowser
-          body={episode.body}
-          page={page}
-          pageMax={pageMax}
-          pageRate={pageRate}
-          onTap={() => {
-            setIsShowMenu(!isShowMenu);
-          }}
-          onPullPrev={() => {}}
-          onPullNext={() => {}}
-          onUpdatePageMax={(pageMax) => {
-            setPageMax(pageMax);
-          }}
-          onChangePage={(page) => {
-            setPage(page);
-            // TODO: updateBookmark
-            // https://github.com/rutan/compac-reader/blob/9d90e67949358ba3ecba6bbc43ab5933a94e5b83/src/view/screen/reader/index.js#L110-L117
-          }}
-        />
-      </SafeAreaView>
+      <ReaderBrowser
+        body={episode.body}
+        page={page}
+        pageMax={pageMax}
+        pageRate={pageRate}
+        onTap={() => {
+          setIsShowMenu(!isShowMenu);
+        }}
+        onPullPrev={() => {}}
+        onPullNext={() => {}}
+        onUpdatePageMax={(pageMax) => {
+          setPageMax(pageMax);
+        }}
+        onChangePage={(page) => {
+          setPage(page);
+          // TODO: updateBookmark
+          // https://github.com/rutan/compac-reader/blob/9d90e67949358ba3ecba6bbc43ab5933a94e5b83/src/view/screen/reader/index.js#L110-L117
+        }}
+      />
     </View>
   );
 }
@@ -122,5 +120,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     zIndex: 2,
-  }
+  },
 });
