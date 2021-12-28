@@ -50,6 +50,10 @@
         try {
           const message = JSON.parse(decodeURIComponent(escape(atob(messageString))));
           switch (message.type) {
+            case 'configuration': {
+              app.setConfiguration(message.data);
+              break;
+            }
             case 'load':
               app.setBody(message.data.body, message.data.pageRate);
               break;
@@ -58,11 +62,6 @@
               break;
             case 'pageRate':
               app.goTo(Math.floor(app.maxPage * Math.parseFloat(message.data)), { skipEvent: true });
-              break;
-            case 'fontSize':
-              app.setConfiguration({
-                fontSize: ~~message.data
-              });
               break;
             case 'requestPage':
               send('page', {

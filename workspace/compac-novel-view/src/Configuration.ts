@@ -3,8 +3,10 @@ export interface Configuration {
   textColor: string;
   fontSize: number;
   fontFamily: string;
-  pagePaddingX: number;
-  pagePaddingY: number;
+  pagePaddingTop: number;
+  pagePaddingBottom: number;
+  pagePaddingLeft: number;
+  pagePaddingRight: number;
 }
 
 export const DEFAULT_CONFIGURATION: Configuration = {
@@ -12,6 +14,8 @@ export const DEFAULT_CONFIGURATION: Configuration = {
   textColor: '#333333',
   fontSize: 18,
   fontFamily: 'serif',
-  pagePaddingX: 50,
-  pagePaddingY: 30
+  pagePaddingTop: 30,
+  pagePaddingBottom: 30,
+  pagePaddingLeft: 50,
+  pagePaddingRight: 50
 };

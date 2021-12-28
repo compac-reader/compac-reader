@@ -85,10 +85,12 @@ export class App {
     this._innerElement.style.setProperty('--compacFontFamily', this._configuration.fontFamily);
     this._innerElement.style.setProperty('--compacBackColor', this._configuration.backColor);
     this._innerElement.style.setProperty('--compacTextColor', this._configuration.textColor);
-    this._innerElement.style.setProperty('--compacPagePaddingX', `${this._configuration.pagePaddingX}px`);
-    this._innerElement.style.setProperty('--compacPagePaddingY', `${this._configuration.pagePaddingY}px`);
-    this._innerElement.style.setProperty('--compacPageWidth', `${width - this._configuration.pagePaddingX * 2}px`);
-    this._innerElement.style.setProperty('--compacPageHeight', `${height - this._configuration.pagePaddingY * 2}px`);
+    this._innerElement.style.setProperty('--compacPagePaddingLeft', `${this._configuration.pagePaddingLeft}px`);
+    this._innerElement.style.setProperty('--compacPagePaddingRight', `${this._configuration.pagePaddingRight}px`);
+    this._innerElement.style.setProperty('--compacPagePaddingTop', `${this._configuration.pagePaddingTop}px`);
+    this._innerElement.style.setProperty('--compacPagePaddingBottom', `${this._configuration.pagePaddingBottom}px`);
+    this._innerElement.style.setProperty('--compacPageWidth', `${width - (this._configuration.pagePaddingLeft + this._configuration.pagePaddingRight)}px`);
+    this._innerElement.style.setProperty('--compacPageHeight', `${height - (this._configuration.pagePaddingTop + this._configuration.pagePaddingBottom)}px`);
 
     if (this._currentBody) {
       const progressRate = this._pageProgressRate;

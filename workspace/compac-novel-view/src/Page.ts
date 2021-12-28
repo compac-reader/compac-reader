@@ -85,7 +85,9 @@ export class Page {
     this._contentElement.innerHTML = this._currentBody;
     this._contentElement.appendChild(this._daemonElement);
 
-    const columnGap = this._contentElement.getBoundingClientRect().y - this._element.getBoundingClientRect().y;
+    const compStyle = window.getComputedStyle(this._contentElement);
+    const columnGap = Number.parseInt(compStyle.getPropertyValue('column-gap').replace('px', ''), 10);
+
     const { height, y } = this._daemonElement.getBoundingClientRect();
     this._contentHeight = height + columnGap;
     this._maxPage = Math.ceil(y / this._contentHeight);
