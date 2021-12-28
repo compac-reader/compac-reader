@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, StatusBar, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { useAssets } from "expo-asset";
 import Base64 from "./Base64";
@@ -28,6 +28,15 @@ export function ReaderBrowser(props: Props) {
 
   const startRenderHTML = () => {
     const { body, pageRate } = props;
+
+    // configurable in the future :)
+    sendMessage('configuration', {
+      pagePaddingTop: 0 + (StatusBar.currentHeight || 0),
+      pagePaddingBottom: 0,
+      pagePaddingLeft: 50,
+      pagePaddingRight: 50,
+    });
+
     sendMessage("load", {
       body,
       pageRate,
