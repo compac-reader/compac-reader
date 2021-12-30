@@ -1,6 +1,12 @@
 .compac-novel-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+.compac-novel-viewer__inner {
   --compacBackColor: #fffff1;
   --compacTextColor: #333333;
+  --compacFontSize: 16px;
   --compacFontFamily: 'serif';
   --compacPageWidth: 100px;
   --compacPageHeight: 100px;
@@ -9,18 +15,15 @@
   --compacPagePaddingTop: 0;
   --compacPagePaddingBottom: 0;
 
-  width: 100%;
-  height: 100%;
-  background: var(--compacBackColor);
-  color: var(--compacTextColor);
-  font-family: var(--compacFontFamily);
-}
-
-.compac-novel-viewer__inner {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  background: var(--compacBackColor);
+  color: var(--compacTextColor);
+  font-size: var(--compacFontSize);
+  font-family: var(--compacFontFamily);
 }
 
 .compac-novel-viewer .compac-novel-viewer__page {
