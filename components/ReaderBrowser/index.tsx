@@ -3,6 +3,7 @@ import { Platform, StyleSheet, StatusBar, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { useAssets } from "expo-asset";
 import Base64 from "./Base64";
+import {useColors} from "../../hooks/useColors";
 
 export type Props = {
   body: string;
@@ -21,22 +22,29 @@ export function ReaderBrowser(props: Props) {
   const [assets] = useAssets([require("./index.html")]);
   const htmlAsset = assets?.[0];
 
+  const {viewer: viewerColor} = useColors();
+
   const sendMessage = (type: string, data: any) => {
     const payload = Base64.encode(JSON.stringify({ type, data }));
     webViewRef.current?.injectJavaScript(`window.onMessage("${payload}")`);
   };
 
-  const startRenderHTML = () => {
-    const { body, pageRate } = props;
-
+  const sendConfiguration = () => {
     // configurable in the future :)
     sendMessage('configuration', {
+      backColor: viewerColor.background,
+      textColor: viewerColor.text,
       pagePaddingTop: 0 + (StatusBar.currentHeight || 0),
       pagePaddingBottom: 0,
       pagePaddingLeft: 50,
       pagePaddingRight: 50,
     });
+  };
 
+  const startRenderHTML = () => {
+    const { body, pageRate } = props;
+
+    sendConfiguration();
     sendMessage("load", {
       body,
       pageRate,
