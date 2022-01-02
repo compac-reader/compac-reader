@@ -1,19 +1,29 @@
 .compac-novel-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+.compac-novel-viewer__inner {
   --compacBackColor: #fffff1;
   --compacTextColor: #333333;
+  --compacFontSize: 16px;
   --compacFontFamily: 'serif';
   --compacPageWidth: 100px;
   --compacPageHeight: 100px;
-  --compacPagePaddingX: 0;
-  --compacPagePaddingY: 0;
+  --compacPagePaddingLeft: 0;
+  --compacPagePaddingRight: 0;
+  --compacPagePaddingTop: 0;
+  --compacPagePaddingBottom: 0;
 
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+
   background: var(--compacBackColor);
   color: var(--compacTextColor);
+  font-size: var(--compacFontSize);
   font-family: var(--compacFontFamily);
-  overflow: hidden;
 }
 
 .compac-novel-viewer .compac-novel-viewer__page {
@@ -36,7 +46,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  padding: var(--compacPagePaddingY) var(--compacPagePaddingX);
+  padding: var(--compacPagePaddingTop) var(--compacPagePaddingRight) var(--compacPagePaddingBottom) var(--compacPagePaddingLeft);
 }
 
 .compac-novel-viewer .compac-novel-viewer__page_content {
@@ -49,7 +59,7 @@
   width: var(--compacPageWidth);
   height: var(--compacPageHeight);
   column-width: var(--compacPageHeight);
-  column-gap: var(--compacPagePaddingY);
+  column-gap: calc(var(--compacPagePaddingTop) + var(--compacPagePaddingBottom));
 }
 
 .compac-novel-viewer .compac-novel-viewer__page_content p {
