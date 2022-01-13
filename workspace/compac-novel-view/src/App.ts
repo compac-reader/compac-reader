@@ -81,9 +81,9 @@ export class App {
   refresh() {
     const { width, height } = this._innerElement.getBoundingClientRect();
 
+    this._element.style.setProperty('--compacBackColor', this._configuration.backColor);
     this._innerElement.style.setProperty('--compacFontSize', `${this._configuration.fontSize}px`);
     this._innerElement.style.setProperty('--compacFontFamily', this._configuration.fontFamily);
-    this._innerElement.style.setProperty('--compacBackColor', this._configuration.backColor);
     this._innerElement.style.setProperty('--compacTextColor', this._configuration.textColor);
     this._innerElement.style.setProperty('--compacPagePaddingLeft', `${this._configuration.pagePaddingLeft}px`);
     this._innerElement.style.setProperty('--compacPagePaddingRight', `${this._configuration.pagePaddingRight}px`);
