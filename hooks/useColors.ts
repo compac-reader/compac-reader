@@ -6,6 +6,10 @@ export type Colors = {
   textLight: string;
   primary: string;
   border: string;
+  viewer: {
+    background: string;
+    text: string;
+  };
 };
 
 export function useColors(): Colors {
@@ -17,6 +21,10 @@ export function useColors(): Colors {
       textLight: "#777",
       primary: "#009688",
       border: "#111",
+      viewer: {
+        background: '#000',
+        text: '#fff'
+      }
     };
   } else {
     return {
@@ -25,6 +33,10 @@ export function useColors(): Colors {
       textLight: "#999",
       primary: "#009688",
       border: "#eee",
+      viewer: {
+        background: '#fffff1',
+        text: '#333'
+      }
     };
   }
 }
