@@ -85,6 +85,6 @@ function replaceText(text: string) {
 }
 
 const NO_ORIENTATIONS = ['…'];
-const SIDEWAYS_CHARS = ['＜', '＞', '：', '；', '-', '−'];
-const COMBINE_CHARS = ['！！', '！？', '？！', '！！！', '！！？', '？？！'];
+const SIDEWAYS_CHARS = ['＜', '＞', '：', '；', '-', '−', '─', '―', '↑', '→', '↓', '←'];
+const COMBINE_CHARS = ['！！！', '！！？', '？？！', '！！', '！？', '？！'];
 const REPLACE_REGEXP = new RegExp(`(${NO_ORIENTATIONS.join('|')}|${SIDEWAYS_CHARS.join('|')}|${COMBINE_CHARS.join('|')})`);
