@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,30 +10,9 @@ import { Viewer } from "./screens/Viewer";
 import { Story } from "./screens/Story";
 import { RootStackParamList } from "./screens/Root";
 import { useColorScheme, View } from "react-native";
-import { migration } from "./database/migrations";
-import { openDatabase } from "./database";
-import { useColors } from "./hooks/useColors";
+import { useMigration } from "./hooks/useMigration";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-function useMigration() {
-  const [isMigrating, setIsMigrating] = React.useState(true);
-  useEffect(() => {
-    (async () => {
-      try {
-        const db = await openDatabase();
-        await migration(db);
-        setIsMigrating(false);
-      } catch (error) {
-        console.error(error);
-        setIsMigrating(false);
-      }
-    })();
-  }, []);
-  return {
-    isMigrating: isMigrating,
-  };
-}
 
 export default function App() {
   const { isMigrating } = useMigration();
