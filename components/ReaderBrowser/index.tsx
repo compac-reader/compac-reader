@@ -19,7 +19,7 @@ export type Props = {
 };
 
 export function ReaderBrowser(props: Props) {
-  const webViewRef = useRef<any>();
+  const webViewRef = useRef<WebView>(null);
   const [assets] = useAssets([require("./index.html")]);
   const htmlAsset = assets?.[0];
 
