@@ -28,9 +28,21 @@ export default function App() {
     <NavigationContainer theme={theme}>
       <Stack.Navigator>
         <Stack.Group>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Story" component={Story} />
-          <Stack.Screen name="Browsing" component={Browsing} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ title: "Compac Reader" }}
+          />
+          <Stack.Screen
+            name="Story"
+            component={Story}
+            options={{ title: "" }}
+          />
+          <Stack.Screen
+            name="Browsing"
+            component={Browsing}
+            options={{ title: "小説を探す" }}
+          />
         </Stack.Group>
         <Stack.Group
           screenOptions={{

@@ -34,6 +34,12 @@ export function Story() {
     }, [])
   );
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: story?.title || "",
+    });
+  }, [story?.title]);
+
   if (!story) {
     return <Text style={{ color: colors.text }}>Loading...</Text>;
   }
