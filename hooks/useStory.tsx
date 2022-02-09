@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { insertEpisode, insertStory, queryStory } from "../database";
 import { fetchStory, Story } from "../lib/narouClient";
 
-export function useStory(id: string): Story | undefined {
+export function useStory(id: string) {
   const [story, setStory] = useState<Story>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
       const story = await queryStory(id);
-
-      if (story && story.episodes.length > 0) {
+      if (story && story.episodes.length > 0 && !shouldRefresh) {
         setStory(story as any);
         return;
       }
@@ -27,8 +28,16 @@ export function useStory(id: string): Story | undefined {
           isRead: false,
         });
       }
+      setIsLoading(false);
     })();
-  }, []);
+  }, [shouldRefresh]);
 
-  return story;
+  return {
+    story,
+    isLoading,
+    refresh: () => {
+      setIsLoading(true);
+      setShouldRefresh(true);
+    },
+  };
 }
