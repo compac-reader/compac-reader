@@ -30,6 +30,7 @@ export function Browsing() {
       <WebView
         ref={webViewRef}
         source={{ uri: settings.uri }}
+        setSupportMultipleWindows={false}
         onNavigationStateChange={(e) => {
           setCanGoBack(e.canGoBack);
           setCanGoForward(e.canGoForward);
@@ -90,7 +91,7 @@ export function Browsing() {
           if (publisherCode) {
             navigation.dispatch(
               StackActions.replace("Story", {
-                id: "narou__" + publisherCode,
+                storyId: "narou__" + publisherCode,
               })
             );
           }
