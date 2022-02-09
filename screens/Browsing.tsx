@@ -8,6 +8,7 @@ import WebView from "react-native-webview";
 import { FAB } from "react-native-elements";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { StackActions } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type BrowsingScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -22,6 +23,7 @@ export function Browsing() {
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
   const webViewRef = useRef<WebView>(null);
+  const safeAreaInsets = useSafeAreaInsets();
 
   return (
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
@@ -39,7 +41,13 @@ export function Browsing() {
           }
         }}
       />
-      <View style={{ ...styles.footerBar, backgroundColor: colors.primary }}>
+      <View
+        style={{
+          ...styles.footerBar,
+          backgroundColor: colors.primary,
+          paddingBottom: safeAreaInsets.bottom,
+        }}
+      >
         <TouchableOpacity
           disabled={!canGoBack}
           style={styles.footerButton}
@@ -71,7 +79,7 @@ export function Browsing() {
       </View>
       <FAB
         disabled={publisherCode === undefined}
-        style={styles.fab}
+        style={{ ...styles.fab, paddingBottom: safeAreaInsets.bottom }}
         color={colors.primary}
         icon={{
           type: "material",
@@ -97,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footerBar: {
-    height: 50,
+    minHeight: 50,
     paddingLeft: 10,
     paddingRight: 80,
     flexDirection: "row",
