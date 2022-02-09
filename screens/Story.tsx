@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { FlatList, StyleSheet, View, Text } from "react-native";
+import { FlatList, StyleSheet, View, Text, RefreshControl } from "react-native";
 import { EpisodeChapter } from "../components/EpisodeChapter";
 import { EpisodeItem } from "../components/EpisodeItem";
 import { SectionHeader } from "../components/SectionHeader";
@@ -19,7 +19,7 @@ type StoryScreenNavigationProp = NativeStackNavigationProp<
 
 export function Story() {
   const route = useRoute<StoryScreenRouteProp>();
-  const story = useStory(route.params.id);
+  const { story, isLoading, refresh } = useStory(route.params.id);
   const colors = useColors();
   const navigation = useNavigation<StoryScreenNavigationProp>();
   if (!story) {
@@ -29,6 +29,14 @@ export function Story() {
     <FlatList
       style={{ backgroundColor: colors.background }}
       data={story.episodes}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoading}
+          onRefresh={() => {
+            refresh();
+          }}
+        />
+      }
       ListHeaderComponent={() => (
         <View>
           <StoryHeader story={story} />
