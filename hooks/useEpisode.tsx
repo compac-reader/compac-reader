@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { addBodyToEpisode, queryEpisode, databaseEpisodeId } from "../database";
+import {
+  addBodyToEpisode,
+  queryEpisode,
+  databaseEpisodeId,
+  queryStory,
+} from "../database";
 import { fetchEpisode, ReadableEpisode } from "../lib/narouClient";
 
 export async function downloadEpisode(storyId: string, episodeId: string) {
@@ -14,12 +19,13 @@ export async function downloadEpisode(storyId: string, episodeId: string) {
 export function useEpisode(
   storyId: string,
   episodeId: string
-): ReadableEpisode | undefined {
-  const [episode, setEpisode] = useState<ReadableEpisode | undefined>(
-    undefined
-  );
+): (ReadableEpisode & { initialPageRate?: number }) | undefined {
+  const [episode, setEpisode] = useState<
+    (ReadableEpisode & { initialPageRate?: number }) | undefined
+  >(undefined);
   useEffect(() => {
     (async () => {
+      const story = await queryStory(storyId);
       const episode = await queryEpisode(databaseEpisodeId(storyId, episodeId));
       const body = episode?.body;
       if (episode && body) {
@@ -29,6 +35,10 @@ export function useEpisode(
           publisherCode: storyId.split("__")[1],
           body: body,
           episodeId: episodeId,
+          initialPageRate:
+            story?.lastReadEpisodeId === episodeId
+              ? story.lastReadPageRate
+              : undefined,
         });
         return;
       }

@@ -30,7 +30,7 @@ export type Story = {
   icon?: string;
   lastUpdatedAt: number;
   lastReadEpisodeId?: string;
-  lastReadPageRate?: string;
+  lastReadPageRate?: number;
 };
 
 export type Episode =
@@ -211,14 +211,30 @@ export async function addBodyToEpisode(id: string, body: string) {
   );
 }
 
-export async function readEpisode(id: string) {
-  // TODO: add bookmark
+export async function readEpisode(
+  storyId: string,
+  episodeId: string,
+  pageRate?: number
+) {
   const db = await openDatabase();
   await executeWriteTransaction(
     db,
     "UPDATE episodes SET isRead = ? WHERE id = ?;",
-    [1, id]
+    [1, databaseEpisodeId(storyId, episodeId)]
   );
+  if (pageRate) {
+    await executeWriteTransaction(
+      db,
+      "UPDATE stories SET lastReadEpisodeId = ?, lastReadPageRate = ? WHERE id = ?;",
+      [episodeId, pageRate, storyId]
+    );
+  } else {
+    await executeWriteTransaction(
+      db,
+      "UPDATE stories SET lastReadEpisodeId = ? WHERE id = ?;",
+      [episodeId, storyId]
+    );
+  }
 }
 
 export function databaseEpisodeId(storyId: string, episodeId: string) {
