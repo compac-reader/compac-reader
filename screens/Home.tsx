@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -8,6 +8,7 @@ import { StoryList } from "../components/StoryList";
 import { Story } from "../models/story";
 import { useColors } from "../hooks/useColors";
 import { queryStories } from "../database";
+import { FAB } from "react-native-elements";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,17 +17,26 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 function useStories() {
   const [stories, setStories] = React.useState<Omit<Story, "episodes">[]>([]);
+  const [shouldRefresh, setShouldRefresh] = useState(true);
   useEffect(() => {
-    queryStories().then((stories) => {
-      setStories(stories);
-    });
-  }, []);
-  return stories;
+    if (shouldRefresh) {
+      queryStories().then((stories) => {
+        setStories(stories);
+      });
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+  return {
+    stories,
+    refresh: () => {
+      setShouldRefresh(true);
+    },
+  };
 }
 
 export function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const stories = useStories();
+  const { stories, refresh } = useStories();
   const colors = useColors();
 
   return (
@@ -36,7 +46,9 @@ export function Home() {
         <StoryList
           stories={stories}
           isLoading={false}
-          onRefresh={() => {}}
+          onRefresh={() => {
+            refresh();
+          }}
           onPressStory={(storyId: string) => {
             navigation.navigate("Story", { id: storyId });
           }}
@@ -44,6 +56,14 @@ export function Home() {
       ) : (
         <Text>小説が登録されていません</Text>
       )}
+      <FAB
+        style={styles.fab}
+        color={colors.primary}
+        icon={{ name: "add", color: "white" }}
+        onPress={() => {
+          navigation.navigate("Browsing");
+        }}
+      />
     </View>
   );
 }
@@ -51,5 +71,10 @@ export function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  fab: {
+    position: "absolute",
+    right: 15,
+    bottom: 15,
   },
 });

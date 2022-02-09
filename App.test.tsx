@@ -1,15 +1,21 @@
 import React from "react";
 import renderer, { ReactTestRendererJSON } from "react-test-renderer";
-
+import { View } from "react-native";
 import App from "./App";
 import { useMigration } from "./hooks/useMigration";
+import { FAB } from "react-native-elements";
 
 jest.useFakeTimers();
-jest.mock("./hooks/useMigration");
 
+jest.mock("./hooks/useMigration");
 const mockUseMigration = useMigration as jest.MockedFunction<
   typeof useMigration
 >;
+
+// This test fails if FAB exists.
+jest.mock("react-native-elements");
+const mockFAB = FAB as jest.MockedFunction<typeof FAB>;
+mockFAB.mockReturnValue(<View />);
 
 describe("<App />", () => {
   it("no child when migration is on", async () => {

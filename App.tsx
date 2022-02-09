@@ -11,6 +11,7 @@ import { Story } from "./screens/Story";
 import { RootStackParamList } from "./screens/Root";
 import { useColorScheme, View } from "react-native";
 import { useMigration } from "./hooks/useMigration";
+import { Browsing } from "./screens/Browsing";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Group>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Story" component={Story} />
+          <Stack.Screen name="Browsing" component={Browsing} />
         </Stack.Group>
         <Stack.Group
           screenOptions={{
