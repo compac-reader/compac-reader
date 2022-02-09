@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   Home: undefined;
-  Story: { id: string };
-  Viewer: { id: string; episodeId: string };
+  Story: { storyId: string };
+  Viewer: { storyId: string; episodeId: string };
   Browsing: undefined;
 };

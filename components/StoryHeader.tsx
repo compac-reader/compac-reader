@@ -7,7 +7,7 @@ import { defaultIcon } from "../assets/images";
 export type Props = {
   story: {
     title: string;
-    icon: string;
+    icon?: string;
     authorName: string;
   };
 };
