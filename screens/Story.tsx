@@ -69,7 +69,7 @@ export function Story() {
               isRead: item.isRead,
               isDownload: item.downloadedAt !== undefined,
             }}
-            bookmark={{ episodeId: "" }}
+            bookmark={{ episodeId: story.lastReadEpisodeId || "" }}
             onPress={() => {
               navigation.navigate("Viewer", {
                 storyId: route.params.storyId,

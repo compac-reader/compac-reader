@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
-import { useNavigation, useRoute } from "@react-navigation/core";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/core";
 import { useColors } from "../hooks/useColors";
 import { ReaderBrowser } from "../components/ReaderBrowser";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ViewerNavigation } from "../components/ViewerNavigation";
 import { ViewerFooter } from "../components/ViewerFooter";
 import { useEpisode } from "../hooks/useEpisode";
-import { databaseEpisodeId, readEpisode } from "../database";
+import { readEpisode } from "../database";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
-type Props = {
-  initialPageRate?: number;
-};
+function pageRate(page: number, pageMax: number) {
+  if (pageMax === 0) {
+    return 0;
+  }
+  return page / pageMax;
+}
 
-export function Viewer(props: Props) {
+export function Viewer() {
   const route = useRoute<ViewerScreenRouteProp>();
   const { storyId, episodeId } = route.params;
   const colors = useColors();
@@ -26,19 +33,27 @@ export function Viewer(props: Props) {
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
   const [page, setPage] = useState(0);
-  const [pageRate, setPageRate] = useState(0);
 
   const safeAreaInsets = useSafeAreaInsets();
 
   useEffect(() => {
-    setPageRate(props.initialPageRate || 0);
-  }, [props.initialPageRate]);
+    (async () => {
+      if (episode) {
+        await readEpisode(storyId, episodeId);
+      }
+    })();
+  }, [episode?.initialPageRate]);
 
   useEffect(() => {
-    (async () => {
-      await readEpisode(databaseEpisodeId(storyId, episodeId));
-    })();
-  }, []);
+    const id = setTimeout(() => {
+      (async () => {
+        await readEpisode(storyId, episodeId, pageRate(page, pageMax));
+      })();
+    }, 5000);
+    return () => {
+      clearTimeout(id);
+    };
+  }, [storyId, episodeId, page, pageMax]);
 
   const navigation = useNavigation();
 
@@ -51,7 +66,10 @@ export function Viewer(props: Props) {
       <ViewerNavigation
         title={episode.title}
         onPress={() => {
-          navigation.goBack();
+          (async () => {
+            await readEpisode(storyId, episodeId, pageRate(page, pageMax));
+            navigation.goBack();
+          })();
         }}
         style={{
           ...styles.header,
@@ -75,7 +93,7 @@ export function Viewer(props: Props) {
         body={episode.body}
         page={page}
         pageMax={pageMax}
-        pageRate={pageRate}
+        pageRate={episode.initialPageRate || 0}
         onTap={() => {
           setIsShowMenu(!isShowMenu);
         }}
@@ -86,8 +104,6 @@ export function Viewer(props: Props) {
         }}
         onChangePage={(page) => {
           setPage(page);
-          // TODO: updateBookmark
-          // https://github.com/rutan/compac-reader/blob/9d90e67949358ba3ecba6bbc43ab5933a94e5b83/src/view/screen/reader/index.js#L110-L117
         }}
       />
     </View>

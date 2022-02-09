@@ -69,6 +69,6 @@ export function useStory(id: string) {
           setStory(story);
         }
       })();
-    }, []),
+    }, [id]),
   };
 }
