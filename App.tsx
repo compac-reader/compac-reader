@@ -9,13 +9,19 @@ import { Home } from "./screens/Home";
 import { Viewer } from "./screens/Viewer";
 import { Story } from "./screens/Story";
 import { RootStackParamList } from "./screens/Root";
-import { useColorScheme } from "react-native";
+import { useColorScheme, View } from "react-native";
+import { useMigration } from "./hooks/useMigration";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const { isMigrating } = useMigration();
   const colorScheme = useColorScheme();
   const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
+
+  if (isMigrating) {
+    return <View />;
+  }
 
   return (
     <NavigationContainer theme={theme}>
