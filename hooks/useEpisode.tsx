@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { addBodyToEpisode, queryEpisode } from "../database";
+import { addBodyToEpisode, queryEpisode, databaseEpisodeId } from "../database";
 import { fetchEpisode, ReadableEpisode } from "../lib/narouClient";
 
-function databaseEpisodeId(storyId: string, episodeId: string) {
-  if (episodeId) {
-    return `${storyId}__${episodeId}`;
-  } else {
-    return `${storyId}__0`;
-  }
+export async function downloadEpisode(storyId: string, episodeId: string) {
+  const fetchedEpisode = await fetchEpisode(storyId.split("__")[1], episodeId);
+  await addBodyToEpisode(
+    databaseEpisodeId(storyId, episodeId),
+    fetchedEpisode.body
+  );
+  return fetchedEpisode;
 }
 
 export function useEpisode(
@@ -32,16 +33,9 @@ export function useEpisode(
         return;
       }
 
-      const fetchedEpisode = await fetchEpisode(
-        storyId.split("__")[1],
-        episodeId
-      );
-      setEpisode(fetchedEpisode);
-      await addBodyToEpisode(
-        databaseEpisodeId(storyId, episodeId),
-        fetchedEpisode.body
-      );
+      const downloadedEpisode = await downloadEpisode(storyId, episodeId);
+      setEpisode(downloadedEpisode);
     })();
-  }, []);
+  }, [storyId, episodeId]);
   return episode;
 }

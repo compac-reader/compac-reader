@@ -33,6 +33,27 @@ export type Story = {
   lastReadPageRate?: string;
 };
 
+export type Episode =
+  | {
+      id: string;
+      storyId: string;
+      type: "episode";
+      episodeId: string;
+      title: string;
+      publishedAt: number;
+      revisedAt: number;
+      index: number;
+      isRead: boolean;
+      downloadedAt?: number;
+    }
+  | {
+      id: string;
+      storyId: string;
+      type: "header";
+      title: string;
+      index: number;
+    };
+
 export async function queryStories(): Promise<Story[]> {
   const db = await openDatabase();
 
@@ -89,7 +110,7 @@ export async function queryStory(
       index: item.number,
       publishedAt: item.publishedAt || undefined,
       revisedAt: item.revisedAt || undefined,
-      isRead: item.isRead,
+      isRead: !!item.isRead,
       downloadedAt: item.downloadedAt || undefined,
     });
   }
@@ -159,19 +180,6 @@ export async function insertStory(story: Story) {
   );
 }
 
-export type Episode = {
-  id: string;
-  storyId: string;
-  episodeId?: string;
-  type: "header" | "episode";
-  title: string;
-  index: number;
-  publishedAt?: number;
-  revisedAt?: number;
-  isRead: boolean;
-  downloadedAt?: number;
-};
-
 export async function insertEpisode(episode: Episode) {
   const db = await openDatabase();
 
@@ -181,14 +189,14 @@ export async function insertEpisode(episode: Episode) {
     [
       episode.id,
       episode.storyId,
-      episode.episodeId || "",
+      episode.type === "episode" ? episode.episodeId || "" : "",
       episode.type,
       episode.title,
       episode.index,
-      episode.publishedAt || 0,
-      episode.revisedAt || 0,
-      episode.isRead ? 1 : 0,
-      episode.downloadedAt || 0,
+      episode.type === "episode" ? episode.publishedAt || 0 : 0,
+      episode.type === "episode" ? episode.revisedAt || 0 : 0,
+      episode.type === "episode" ? (episode.isRead ? 1 : 0) : 0,
+      episode.type === "episode" ? episode.downloadedAt || 0 : 0,
     ]
   );
 }
@@ -201,4 +209,22 @@ export async function addBodyToEpisode(id: string, body: string) {
     "UPDATE episodes SET body = ?, downloadedAt = ? WHERE id = ?;",
     [body, Math.floor(Date.now() / 1000), id]
   );
+}
+
+export async function readEpisode(id: string) {
+  // TODO: add bookmark
+  const db = await openDatabase();
+  await executeWriteTransaction(
+    db,
+    "UPDATE episodes SET isRead = ? WHERE id = ?;",
+    [1, id]
+  );
+}
+
+export function databaseEpisodeId(storyId: string, episodeId: string) {
+  if (episodeId) {
+    return `${storyId}__${episodeId}`;
+  } else {
+    return `${storyId}__0`;
+  }
 }

@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ViewerNavigation } from "../components/ViewerNavigation";
 import { ViewerFooter } from "../components/ViewerFooter";
 import { useEpisode } from "../hooks/useEpisode";
+import { databaseEpisodeId, readEpisode } from "../database";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
@@ -18,9 +19,9 @@ type Props = {
 
 export function Viewer(props: Props) {
   const route = useRoute<ViewerScreenRouteProp>();
-  const { id, episodeId } = route.params;
+  const { storyId, episodeId } = route.params;
   const colors = useColors();
-  const episode = useEpisode(id, episodeId);
+  const episode = useEpisode(storyId, episodeId);
 
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
@@ -32,6 +33,12 @@ export function Viewer(props: Props) {
   useEffect(() => {
     setPageRate(props.initialPageRate || 0);
   }, [props.initialPageRate]);
+
+  useEffect(() => {
+    (async () => {
+      await readEpisode(databaseEpisodeId(storyId, episodeId));
+    })();
+  }, []);
 
   const navigation = useNavigation();
 

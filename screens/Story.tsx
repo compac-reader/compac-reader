@@ -1,6 +1,11 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { FlatList, StyleSheet, View, Text, RefreshControl } from "react-native";
 import { EpisodeChapter } from "../components/EpisodeChapter";
 import { EpisodeItem } from "../components/EpisodeItem";
@@ -19,21 +24,30 @@ type StoryScreenNavigationProp = NativeStackNavigationProp<
 
 export function Story() {
   const route = useRoute<StoryScreenRouteProp>();
-  const { story, isLoading, refresh } = useStory(route.params.id);
+  const { story, isLoading, refetch, refresh } = useStory(route.params.storyId);
   const colors = useColors();
   const navigation = useNavigation<StoryScreenNavigationProp>();
+
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [])
+  );
+
   if (!story) {
     return <Text style={{ color: colors.text }}>Loading...</Text>;
   }
+
   return (
     <FlatList
       style={{ backgroundColor: colors.background }}
       data={story.episodes}
+      initialNumToRender={10}
       refreshControl={
         <RefreshControl
           refreshing={isLoading}
           onRefresh={() => {
-            refresh();
+            refetch();
           }}
         />
       }
@@ -50,11 +64,15 @@ export function Story() {
         }
         return (
           <EpisodeItem
-            episode={{ ...item, isRead: false, isDownload: false }}
+            episode={{
+              ...item,
+              isRead: item.isRead,
+              isDownload: item.downloadedAt !== undefined,
+            }}
             bookmark={{ episodeId: "" }}
             onPress={() => {
               navigation.navigate("Viewer", {
-                id: route.params.id,
+                storyId: route.params.storyId,
                 episodeId: item.episodeId,
               });
             }}

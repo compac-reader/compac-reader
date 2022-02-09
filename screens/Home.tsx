@@ -50,7 +50,7 @@ export function Home() {
             refresh();
           }}
           onPressStory={(storyId: string) => {
-            navigation.navigate("Story", { id: storyId });
+            navigation.navigate("Story", { storyId: storyId });
           }}
         />
       ) : (
