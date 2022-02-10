@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import React, { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/core";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./Root";
@@ -17,20 +17,19 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 function useStories() {
   const [stories, setStories] = React.useState<Omit<Story, "episodes">[]>([]);
-  const [shouldRefresh, setShouldRefresh] = useState(true);
+  const refresh = useCallback(() => {
+    queryStories().then((stories) => {
+      setStories(stories);
+    });
+  }, []);
+
   useEffect(() => {
-    if (shouldRefresh) {
-      queryStories().then((stories) => {
-        setStories(stories);
-      });
-      setShouldRefresh(false);
-    }
-  }, [shouldRefresh]);
+    refresh();
+  }, []);
+
   return {
     stories,
-    refresh: () => {
-      setShouldRefresh(true);
-    },
+    refresh,
   };
 }
 
@@ -38,6 +37,11 @@ export function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const { stories, refresh } = useStories();
   const colors = useColors();
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [])
+  );
 
   return (
     <View style={{ ...styles.container, backgroundColor: colors.background }}>

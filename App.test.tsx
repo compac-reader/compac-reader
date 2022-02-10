@@ -1,7 +1,7 @@
 import React from "react";
 import renderer, { ReactTestRendererJSON } from "react-test-renderer";
 import { View } from "react-native";
-import App from "./App";
+import { App } from "./App";
 import { useMigration } from "./hooks/useMigration";
 import { FAB } from "react-native-elements";
 

@@ -13,10 +13,14 @@ import { useColorScheme, View } from "react-native";
 import { useMigration } from "./hooks/useMigration";
 import { Browsing } from "./screens/Browsing";
 import { useColors } from "./hooks/useColors";
+import {
+  ActionSheetProvider,
+  connectActionSheet,
+} from "@expo/react-native-action-sheet";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function App() {
+export function App() {
   const { isMigrating } = useMigration();
   const colorScheme = useColorScheme();
   const colors = useColors();
@@ -65,4 +69,16 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+
+const ConnectedApp = connectActionSheet<object>(App);
+
+export default class AppContainer extends React.Component {
+  render() {
+    return (
+      <ActionSheetProvider>
+        <ConnectedApp />
+      </ActionSheetProvider>
+    );
+  }
 }
