@@ -20,7 +20,7 @@ import {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function App() {
+export function App() {
   const { isMigrating } = useMigration();
   const colorScheme = useColorScheme();
   const colors = useColors();
