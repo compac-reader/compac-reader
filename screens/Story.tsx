@@ -15,6 +15,9 @@ import { StoryHeader } from "../components/StoryHeader";
 import { useColors } from "../hooks/useColors";
 import { RootStackParamList } from "./Root";
 import { useStory } from "../hooks/useStory";
+import { Button } from "react-native-elements";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { deleteStory } from "../database";
 
 type StoryScreenRouteProp = RouteProp<RootStackParamList, "Story">;
 type StoryScreenNavigationProp = NativeStackNavigationProp<
@@ -39,6 +42,54 @@ export function Story() {
       headerTitle: story?.title || "",
     });
   }, [story?.title]);
+
+  const { showActionSheetWithOptions } = useActionSheet();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => {
+            showActionSheetWithOptions(
+              {
+                options: ["(未実装)全てダウンロード", "削除", "キャンセル"],
+                destructiveButtonIndex: 1,
+                cancelButtonIndex: 2,
+              },
+              (index) => {
+                if (index === 0) {
+                  // TODO: Download all
+                } else if (index === 1) {
+                  showActionSheetWithOptions(
+                    {
+                      options: ["削除", "キャンセル"],
+                      title: "削除しても良いですか？",
+                      destructiveButtonIndex: 0,
+                      cancelButtonIndex: 1,
+                    },
+                    (index) => {
+                      if (index === 0) {
+                        (async () => {
+                          await deleteStory(route.params.storyId);
+                          navigation.goBack();
+                        })();
+                      }
+                    }
+                  );
+                }
+              }
+            );
+          }}
+          type="clear"
+          icon={{
+            type: "simple-line-icon",
+            name: "options-vertical",
+            size: 18,
+            color: "white",
+          }}
+        />
+      ),
+    });
+  }, [navigation, route.params.storyId]);
 
   if (!story) {
     return <Text style={{ color: colors.text }}>Loading...</Text>;

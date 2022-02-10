@@ -180,6 +180,16 @@ export async function insertStory(story: Story) {
   );
 }
 
+export async function deleteStory(storyId: string) {
+  const db = await openDatabase();
+  await executeWriteTransaction(db, "DELETE FROM episodes WHERE storyId = ?;", [
+    storyId,
+  ]);
+  await executeWriteTransaction(db, "DELETE FROM stories WHERE id = ?;", [
+    storyId,
+  ]);
+}
+
 export async function insertEpisode(episode: Episode) {
   const db = await openDatabase();
 
