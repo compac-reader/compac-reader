@@ -11,18 +11,19 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 
 type Props = {
   title: string;
-  onPress: () => void;
+  onPressBack: () => void;
+  onPressMenu: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export function ViewerNavigation(props: Props) {
-  const { title, onPress, style } = props;
+  const { title, onPressBack, onPressMenu, style } = props;
 
   const styleContainer = StyleSheet.flatten([styles.container, style || {}]);
 
   return (
     <View style={styleContainer}>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      <TouchableOpacity style={styles.button} onPress={onPressBack}>
         <Ionicon name="md-close" size={30} color="#fff" />
       </TouchableOpacity>
       <View style={styles.title}>
@@ -30,6 +31,9 @@ export function ViewerNavigation(props: Props) {
           {title}
         </Text>
       </View>
+      <TouchableOpacity style={styles.button} onPress={onPressMenu}>
+        <Ionicon name="md-text" size={30} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }

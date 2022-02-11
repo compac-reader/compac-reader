@@ -34,6 +34,12 @@ const _migrations = [
     UNIQUE(storyId, episodeId)
   );
   `,
+  `
+  CREATE TABLE viewer_configurations (
+    id TEXT NOT NULL PRIMARY KEY,
+    value INTEGER NOT NULL
+  );
+  `,
 ];
 
 export async function migration(
