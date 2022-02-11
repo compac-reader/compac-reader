@@ -32,32 +32,43 @@ export function EpisodeItem(props: Props) {
       >
         {bookmark.episodeId === episode.episodeId ? (
           <View
-            style={{ ...styles.bookmark, backgroundColor: colors.primary }}
+            style={{
+              ...styles.bookmark,
+              backgroundColor: colors.primary,
+            }}
           />
-        ) : null}
-        <Text
-          style={
-            episode.isRead || episode.isDownload
-              ? { ...styles.title, color: colors.text }
-              : { ...styles.titleGray, color: colors.textLight }
-          }
-          numberOfLines={1}
-        >
-          {episode.title}
-        </Text>
-        <View style={styles.info}>
-          <Text style={{ ...styles.publishedAt, color: colors.textLight }}>
-            公開日: {TimeFormatter.toDate(episode.publishedAt)}
+        ) : (
+          <View style={{ ...styles.bookmark }} />
+        )}
+
+        <View style={styles.information}>
+          <Text
+            style={
+              episode.isRead || episode.isDownload
+                ? { ...styles.title, color: colors.text }
+                : { ...styles.titleGray, color: colors.textLight }
+            }
+            numberOfLines={1}
+          >
+            {episode.title}
           </Text>
-          {(() => {
-            if (!episode.revisedAt || episode.revisedAt <= episode.publishedAt)
-              return null;
-            return (
-              <Text style={{ ...styles.revisedAt, color: colors.textLight }}>
-                更新日: {TimeFormatter.toDate(episode.revisedAt)}
-              </Text>
-            );
-          })()}
+          <View style={styles.info}>
+            <Text style={{ ...styles.publishedAt, color: colors.textLight }}>
+              公開日: {TimeFormatter.toDate(episode.publishedAt)}
+            </Text>
+            {(() => {
+              if (
+                !episode.revisedAt ||
+                episode.revisedAt <= episode.publishedAt
+              )
+                return null;
+              return (
+                <Text style={{ ...styles.revisedAt, color: colors.textLight }}>
+                  更新日: {TimeFormatter.toDate(episode.revisedAt)}
+                </Text>
+              );
+            })()}
+          </View>
         </View>
         <View style={styles.mark}>
           <Mark episode={episode} />
@@ -87,36 +98,29 @@ function Mark({ episode }: MarkProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 60,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
     borderBottomWidth: 1,
+    flexDirection: "row",
   },
   bookmark: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
     width: 5,
+    height: "100%",
+  },
+  information: {
+    flexGrow: 1,
+    flexShrink: 1,
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
   title: {
     fontSize: 17,
-    height: 17,
-    lineHeight: 17,
   },
   titleGray: {
     fontSize: 17,
-    height: 17,
-    lineHeight: 17,
   },
   info: {
-    position: "absolute",
-    bottom: 10,
-    left: 15,
+    marginTop: 4,
     flexDirection: "row",
-    marginTop: 10,
   },
   publishedAt: {
     fontSize: 13,
@@ -126,8 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   mark: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
+    marginHorizontal: 10,
+    justifyContent: "center",
   },
 });

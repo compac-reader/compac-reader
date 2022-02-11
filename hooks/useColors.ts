@@ -22,9 +22,9 @@ export function useColors(): Colors {
       primary: "#009688",
       border: "#111",
       viewer: {
-        background: '#000',
-        text: '#fff'
-      }
+        background: "#000",
+        text: "#fff",
+      },
     };
   } else {
     return {
@@ -34,9 +34,9 @@ export function useColors(): Colors {
       primary: "#009688",
       border: "#eee",
       viewer: {
-        background: '#fffff1',
-        text: '#333'
-      }
+        background: "#fffff1",
+        text: "#333",
+      },
     };
   }
 }
