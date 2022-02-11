@@ -3,14 +3,17 @@ import { Platform, StyleSheet, StatusBar, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { useAssets } from "expo-asset";
 import Base64 from "./Base64";
-import {LoadingCover} from './LoadingCover';
-import {useColors} from "../../hooks/useColors";
+import { LoadingCover } from './LoadingCover';
+import { useColors } from "../../hooks/useColors";
+import { useViewerConfiguration } from "../../hooks/useViewerConfiguration";
+import { ViewerConfiguration } from "../../models/viewerConfiguration";
 
 export type Props = {
   body: string;
   page: number;
   pageMax: number;
   pageRate: number;
+  viewerConfiguration: ViewerConfiguration;
   onTap: () => void;
   onPullPrev: () => void;
   onPullNext: () => void;
@@ -23,7 +26,7 @@ export function ReaderBrowser(props: Props) {
   const [assets] = useAssets([require("./index.html")]);
   const htmlAsset = assets?.[0];
 
-  const {viewer: viewerColor} = useColors();
+  const { viewer: viewerColor } = useColors();
   const [isLoading, setIsLoading] = useState(true);
 
   const sendMessage = (type: string, data: any) => {
@@ -32,14 +35,16 @@ export function ReaderBrowser(props: Props) {
   };
 
   const sendConfiguration = () => {
-    // configurable in the future :)
+    const { viewerConfiguration } = props;
+
     sendMessage('configuration', {
       backColor: viewerColor.background,
       textColor: viewerColor.text,
-      pagePaddingTop: 0 + (StatusBar.currentHeight || 0),
-      pagePaddingBottom: 0,
-      pagePaddingLeft: 50,
-      pagePaddingRight: 50,
+      fontSize: viewerConfiguration.fontSize,
+      pagePaddingTop: viewerConfiguration.paddingVertical + (StatusBar.currentHeight || 0),
+      pagePaddingBottom: viewerConfiguration.paddingVertical,
+      pagePaddingLeft: viewerConfiguration.paddingHorizontal,
+      pagePaddingRight: viewerConfiguration.paddingHorizontal,
     });
   };
 
@@ -61,6 +66,10 @@ export function ReaderBrowser(props: Props) {
   useEffect(() => {
     sendMessage("page", props.page);
   }, [props.page]);
+
+  useEffect(() => {
+    sendConfiguration();
+  }, [props.viewerConfiguration]);
 
   const onMessage = (message: string) => {
     const { type, data } = JSON.parse(message);
@@ -101,9 +110,9 @@ export function ReaderBrowser(props: Props) {
         source={
           htmlAsset?.localUri
             ? {
-                uri:
-                  Platform.OS === "android" ? htmlAsset.localUri : htmlAsset.uri,
-              }
+              uri:
+                Platform.OS === "android" ? htmlAsset.localUri : htmlAsset.uri,
+            }
             : undefined
         }
         injectedJavaScript="window.initBridge();"

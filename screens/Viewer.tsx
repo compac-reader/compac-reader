@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
 import {
-  useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/core";
@@ -14,6 +13,8 @@ import { ViewerNavigation } from "../components/ViewerNavigation";
 import { ViewerFooter } from "../components/ViewerFooter";
 import { useEpisode } from "../hooks/useEpisode";
 import { readEpisode } from "../database";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useViewerConfiguration } from "../hooks/useViewerConfiguration";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
@@ -24,17 +25,51 @@ function pageRate(page: number, pageMax: number) {
   return page / pageMax;
 }
 
+const configurationMaster = [
+  {
+    id: 'fontSize' as const,
+    title: '文字サイズ',
+    options: [
+      { label: '小', value: 16 },
+      { label: '中', value: 20 },
+      { label: '大', value: 24 },
+    ]
+  },
+  {
+    id: 'paddingVertical' as const,
+    title: '上下の余白サイズ',
+    options: [
+      { label: 'なし', value: 0 },
+      { label: '小', value: 15 },
+      { label: '中', value: 30 },
+      { label: '大', value: 60 },
+    ]
+  },
+  {
+    id: 'paddingHorizontal' as const,
+    title: '左右の余白サイズ',
+    options: [
+      { label: 'なし', value: 0 },
+      { label: '小', value: 25 },
+      { label: '中', value: 50 },
+      { label: '大', value: 75 },
+    ]
+  },
+];
+
 export function Viewer() {
   const route = useRoute<ViewerScreenRouteProp>();
   const { storyId, episodeId } = route.params;
   const colors = useColors();
   const episode = useEpisode(storyId, episodeId);
+  const [viewerConfiguration, setViewerConfiguration] = useViewerConfiguration();
 
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
   const [page, setPage] = useState(0);
 
   const safeAreaInsets = useSafeAreaInsets();
+  const { showActionSheetWithOptions } = useActionSheet();
 
   useEffect(() => {
     (async () => {
@@ -65,11 +100,49 @@ export function Viewer() {
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <ViewerNavigation
         title={episode.title}
-        onPress={() => {
+        onPressBack={() => {
           (async () => {
             await readEpisode(storyId, episodeId, pageRate(page, pageMax));
             navigation.goBack();
           })();
+        }}
+        onPressMenu={() => {
+          showActionSheetWithOptions(
+            {
+              options: [
+                ...configurationMaster.map((master) => master.title),
+                'キャンセル'
+              ],
+              cancelButtonIndex: configurationMaster.length,
+            },
+            (index) => {
+              if (index === undefined) return;
+
+              const targetMaster = configurationMaster[index];
+              if (!targetMaster) return;
+
+              const { id, title, options } = targetMaster;
+              const currentValue = viewerConfiguration[id];
+
+              showActionSheetWithOptions(
+                {
+                  title,
+                  options: [
+                    ...options.map((options) => `${options.label}${currentValue === options.value ? '（現在値）' : ''}`),
+                    'キャンセル'
+                  ],
+                  cancelButtonIndex: options.length,
+                },
+                (index) => {
+                  if (index === undefined) return;
+
+                  const targetOption = targetMaster.options[index];
+                  if (!targetOption) return;
+                  setViewerConfiguration({ ...viewerConfiguration, [id]: targetOption.value });
+                }
+              );
+            }
+          );
         }}
         style={{
           ...styles.header,
@@ -94,11 +167,14 @@ export function Viewer() {
         page={page}
         pageMax={pageMax}
         pageRate={episode.initialPageRate || 0}
+        viewerConfiguration={viewerConfiguration}
         onTap={() => {
           setIsShowMenu(!isShowMenu);
         }}
-        onPullPrev={() => {}}
-        onPullNext={() => {}}
+        onPullPrev={() => {
+        }}
+        onPullNext={() => {
+        }}
         onUpdatePageMax={(pageMax) => {
           setPageMax(pageMax);
         }}

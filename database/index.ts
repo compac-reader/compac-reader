@@ -254,3 +254,34 @@ export function databaseEpisodeId(storyId: string, episodeId: string) {
     return `${storyId}__0`;
   }
 }
+
+export async function queryViewerConfiguration() {
+  const db = await openDatabase();
+
+  const configurationValues = await executeReadTransaction(
+    db,
+    "SELECT * FROM viewer_configurations;"
+  );
+
+  const configurations = new Map<string, number>();
+
+  for (let i = 0; i < configurationValues.rows.length; ++i) {
+    const item = configurationValues.rows.item(i);
+    const {id, value}: { id: string, value: number } = item;
+    configurations.set(id, value);
+  }
+
+  return configurations;
+}
+
+export async function insertViewerConfiguration(configurations: Map<string, number>) {
+  const db = await openDatabase();
+
+  for (let [id, value] of configurations) {
+    await executeWriteTransaction(
+      db,
+      "INSERT OR REPLACE INTO viewer_configurations (id, value) VALUES (?, ?);",
+      [id, value]
+    );
+  }
+}
