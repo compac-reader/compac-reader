@@ -1,20 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  addBodyToEpisode,
-  queryEpisode,
-  databaseEpisodeId,
-  queryStory,
-} from "../database";
-import { fetchEpisode, ReadableEpisode } from "../lib/narouClient";
-
-export async function downloadEpisode(storyId: string, episodeId: string) {
-  const fetchedEpisode = await fetchEpisode(storyId.split("__")[1], episodeId);
-  await addBodyToEpisode(
-    databaseEpisodeId(storyId, episodeId),
-    fetchedEpisode.body
-  );
-  return fetchedEpisode;
-}
+import { queryEpisode, databaseEpisodeId, queryStory } from "../database";
+import { downloadEpisode } from "../lib/download";
+import { ReadableEpisode } from "../lib/narouClient";
 
 export function useEpisode(
   storyId: string,

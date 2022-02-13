@@ -18,6 +18,7 @@ import { useStory } from "../hooks/useStory";
 import { Button } from "react-native-elements";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { deleteStory } from "../database";
+import { useDownloadManager } from "../lib/download";
 
 type StoryScreenRouteProp = RouteProp<RootStackParamList, "Story">;
 type StoryScreenNavigationProp = NativeStackNavigationProp<
@@ -30,6 +31,13 @@ export function Story() {
   const { story, isLoading, refetch, refresh } = useStory(route.params.storyId);
   const colors = useColors();
   const navigation = useNavigation<StoryScreenNavigationProp>();
+
+  const downloadManager = useDownloadManager();
+  useEffect(() => {
+    return downloadManager.addListener(() => {
+      console.log("downloaded");
+    });
+  }, [downloadManager]);
 
   useFocusEffect(
     useCallback(() => {
@@ -51,13 +59,13 @@ export function Story() {
           onPress={() => {
             showActionSheetWithOptions(
               {
-                options: ["(未実装)全てダウンロード", "削除", "キャンセル"],
+                options: ["全てダウンロード", "削除", "キャンセル"],
                 destructiveButtonIndex: 1,
                 cancelButtonIndex: 2,
               },
               (index) => {
                 if (index === 0) {
-                  // TODO: Download all
+                  downloadManager.downloadAll(route.params.storyId);
                 } else if (index === 1) {
                   showActionSheetWithOptions(
                     {
