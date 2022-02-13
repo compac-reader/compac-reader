@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "./Root";
-import {
-  useNavigation,
-  useRoute,
-} from "@react-navigation/core";
+import { StackActions, useNavigation, useRoute } from "@react-navigation/core";
 import { useColors } from "../hooks/useColors";
 import { ReaderBrowser } from "../components/ReaderBrowser";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ViewerNavigation } from "../components/ViewerNavigation";
 import { ViewerFooter } from "../components/ViewerFooter";
 import { useEpisode } from "../hooks/useEpisode";
-import { readEpisode } from "../database";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useViewerConfiguration } from "../hooks/useViewerConfiguration";
+import {
+  queryNextEpisodeId,
+  queryPrevEpisodeId,
+  readEpisode,
+} from "../database";
 
 type ViewerScreenRouteProp = RouteProp<RootStackParamList, "Viewer">;
 
@@ -27,33 +28,33 @@ function pageRate(page: number, pageMax: number) {
 
 const configurationMaster = [
   {
-    id: 'fontSize' as const,
-    title: '文字サイズ',
+    id: "fontSize" as const,
+    title: "文字サイズ",
     options: [
-      { label: '小', value: 16 },
-      { label: '中', value: 20 },
-      { label: '大', value: 24 },
-    ]
+      { label: "小", value: 16 },
+      { label: "中", value: 20 },
+      { label: "大", value: 24 },
+    ],
   },
   {
-    id: 'paddingVertical' as const,
-    title: '上下の余白サイズ',
+    id: "paddingVertical" as const,
+    title: "上下の余白サイズ",
     options: [
-      { label: 'なし', value: 0 },
-      { label: '小', value: 15 },
-      { label: '中', value: 30 },
-      { label: '大', value: 60 },
-    ]
+      { label: "なし", value: 0 },
+      { label: "小", value: 15 },
+      { label: "中", value: 30 },
+      { label: "大", value: 60 },
+    ],
   },
   {
-    id: 'paddingHorizontal' as const,
-    title: '左右の余白サイズ',
+    id: "paddingHorizontal" as const,
+    title: "左右の余白サイズ",
     options: [
-      { label: 'なし', value: 0 },
-      { label: '小', value: 25 },
-      { label: '中', value: 50 },
-      { label: '大', value: 75 },
-    ]
+      { label: "なし", value: 0 },
+      { label: "小", value: 25 },
+      { label: "中", value: 50 },
+      { label: "大", value: 75 },
+    ],
   },
 ];
 
@@ -62,7 +63,8 @@ export function Viewer() {
   const { storyId, episodeId } = route.params;
   const colors = useColors();
   const episode = useEpisode(storyId, episodeId);
-  const [viewerConfiguration, setViewerConfiguration] = useViewerConfiguration();
+  const [viewerConfiguration, setViewerConfiguration] =
+    useViewerConfiguration();
 
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [pageMax, setPageMax] = useState(1);
@@ -111,7 +113,7 @@ export function Viewer() {
             {
               options: [
                 ...configurationMaster.map((master) => master.title),
-                'キャンセル'
+                "キャンセル",
               ],
               cancelButtonIndex: configurationMaster.length,
             },
@@ -128,8 +130,13 @@ export function Viewer() {
                 {
                   title,
                   options: [
-                    ...options.map((options) => `${options.label}${currentValue === options.value ? '（現在値）' : ''}`),
-                    'キャンセル'
+                    ...options.map(
+                      (options) =>
+                        `${options.label}${
+                          currentValue === options.value ? "（現在値）" : ""
+                        }`
+                    ),
+                    "キャンセル",
                   ],
                   cancelButtonIndex: options.length,
                 },
@@ -138,7 +145,10 @@ export function Viewer() {
 
                   const targetOption = targetMaster.options[index];
                   if (!targetOption) return;
-                  setViewerConfiguration({ ...viewerConfiguration, [id]: targetOption.value });
+                  setViewerConfiguration({
+                    ...viewerConfiguration,
+                    [id]: targetOption.value,
+                  });
                 }
               );
             }
@@ -172,8 +182,34 @@ export function Viewer() {
           setIsShowMenu(!isShowMenu);
         }}
         onPullPrev={() => {
+          (async () => {
+            if (episode) {
+              const prevId = await queryPrevEpisodeId(storyId, episode.index);
+              if (prevId) {
+                navigation.dispatch(
+                  StackActions.replace("Viewer", {
+                    storyId: storyId,
+                    episodeId: prevId,
+                  })
+                );
+              }
+            }
+          })();
         }}
         onPullNext={() => {
+          (async () => {
+            if (episode) {
+              const nextId = await queryNextEpisodeId(storyId, episode.index);
+              if (nextId) {
+                navigation.dispatch(
+                  StackActions.replace("Viewer", {
+                    storyId: storyId,
+                    episodeId: nextId,
+                  })
+                );
+              }
+            }
+          })();
         }}
         onUpdatePageMax={(pageMax) => {
           setPageMax(pageMax);

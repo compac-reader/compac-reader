@@ -19,9 +19,9 @@ export async function downloadEpisode(storyId: string, episodeId: string) {
 export function useEpisode(
   storyId: string,
   episodeId: string
-): (ReadableEpisode & { initialPageRate?: number }) | undefined {
+): (ReadableEpisode & { index: number; initialPageRate?: number }) | undefined {
   const [episode, setEpisode] = useState<
-    (ReadableEpisode & { initialPageRate?: number }) | undefined
+    (ReadableEpisode & { index: number; initialPageRate?: number }) | undefined
   >(undefined);
   useEffect(() => {
     (async () => {
@@ -44,7 +44,7 @@ export function useEpisode(
       }
 
       const downloadedEpisode = await downloadEpisode(storyId, episodeId);
-      setEpisode(downloadedEpisode);
+      setEpisode({ ...downloadedEpisode, index: episode!.index });
     })();
   }, [storyId, episodeId]);
   return episode;

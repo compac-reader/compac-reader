@@ -160,6 +160,40 @@ export async function queryEpisode(
   };
 }
 
+export async function queryPrevEpisodeId(
+  storyId: string,
+  index: number
+): Promise<string | null> {
+  const db = await openDatabase();
+  const prevEpisode = await executeReadTransaction(
+    db,
+    "SELECT episodeId FROM episodes WHERE storyId = ? AND number < ? ORDER BY number DESC LIMIT 1;",
+    [storyId, index]
+  );
+  if (prevEpisode.rows.length === 0) {
+    return null;
+  }
+  const item = prevEpisode.rows.item(0);
+  return item.episodeId;
+}
+
+export async function queryNextEpisodeId(
+  storyId: string,
+  index: number
+): Promise<string | null> {
+  const db = await openDatabase();
+  const prevEpisode = await executeReadTransaction(
+    db,
+    "SELECT episodeId FROM episodes WHERE storyId = ? AND number > ? ORDER BY number ASC LIMIT 1;",
+    [storyId, index]
+  );
+  if (prevEpisode.rows.length === 0) {
+    return null;
+  }
+  const item = prevEpisode.rows.item(0);
+  return item.episodeId;
+}
+
 export async function insertStory(story: Story) {
   const db = await openDatabase();
   await executeWriteTransaction(
