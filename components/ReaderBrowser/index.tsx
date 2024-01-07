@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, StatusBar, View } from "react-native";
+import { Platform, StyleSheet, StatusBar } from "react-native";
 import { WebView } from "react-native-webview";
 import { useAssets } from "expo-asset";
 import Base64 from "./Base64";
 import { LoadingCover } from './LoadingCover';
 import { useColors } from "../../hooks/useColors";
-import { useViewerConfiguration } from "../../hooks/useViewerConfiguration";
 import { ViewerConfiguration } from "../../models/viewerConfiguration";
 
 export type Props = {
@@ -113,7 +112,7 @@ export function ReaderBrowser(props: Props) {
               uri:
                 Platform.OS === "android" ? htmlAsset.localUri : htmlAsset.uri,
             }
-            : undefined
+            : { uri: 'about:blank' }
         }
         injectedJavaScript="window.initBridge();"
         startInLoadingState={true}
