@@ -5,8 +5,6 @@ import { App } from "./App";
 import { useMigration } from "./hooks/useMigration";
 import { FAB } from "react-native-elements";
 
-jest.useFakeTimers();
-
 jest.mock("./hooks/useMigration");
 const mockUseMigration = useMigration as jest.MockedFunction<
   typeof useMigration

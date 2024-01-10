@@ -15,7 +15,6 @@ import { Browsing } from "./screens/Browsing";
 import { useColors } from "./hooks/useColors";
 import {
   ActionSheetProvider,
-  connectActionSheet,
 } from "@expo/react-native-action-sheet";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -71,13 +70,11 @@ export function App() {
   );
 }
 
-const ConnectedApp = connectActionSheet<object>(App);
-
 export default class AppContainer extends React.Component {
   render() {
     return (
       <ActionSheetProvider>
-        <ConnectedApp />
+        <App />
       </ActionSheetProvider>
     );
   }
